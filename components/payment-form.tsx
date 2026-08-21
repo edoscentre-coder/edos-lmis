@@ -27,7 +27,7 @@ export function PaymentForm({
       </div>
       <div className="min-w-[10rem]">
         <Label htmlFor="payment_method">Method</Label>
-        <Select id="payment_method" name="payment_method" defaultValue={methods[0]?.value ?? "cash"} className="min-w-[10rem]">
+        <Select id="payment_method" name="payment_method" defaultValue={methods[0]?.value ?? ""} className="min-w-[10rem]">
           {methods.map((m) => (
             <option key={m.value} value={m.value}>{m.label}</option>
           ))}

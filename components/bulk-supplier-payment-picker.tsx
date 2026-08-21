@@ -174,7 +174,7 @@ export function BulkSupplierPaymentPicker({
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <Label htmlFor="payment_method">Method</Label>
-              <Select id="payment_method" name="payment_method" defaultValue={paymentMethods[0]?.value ?? "cash"}>
+              <Select id="payment_method" name="payment_method" defaultValue={paymentMethods[0]?.value ?? ""}>
                 {paymentMethods.map((m) => (
                   <option key={m.value} value={m.value}>
                     {m.label}
