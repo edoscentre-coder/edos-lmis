@@ -99,7 +99,7 @@ export function PurchaseOrderForm({
         <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <Label htmlFor="supplier_id">Supplier *</Label>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <Select
                 id="supplier_id"
                 name="supplier_id"
@@ -115,7 +115,7 @@ export function PurchaseOrderForm({
               <Button
                 type="button"
                 variant="outline"
-                className="shrink-0 whitespace-nowrap"
+                className="w-full shrink-0 whitespace-nowrap sm:w-auto"
                 disabled={!supplierId}
                 title={supplierId ? undefined : "Select a supplier first"}
                 onClick={openCatalog}
@@ -139,8 +139,8 @@ export function PurchaseOrderForm({
         <CardHeader>
           <CardTitle>Commodities to order</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-x-auto p-2 md:p-0">
+          <table className="stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Commodity</th>
@@ -155,18 +155,18 @@ export function PurchaseOrderForm({
                 const catalogPrice = catalogByItem.get(item.id);
                 return (
                   <tr key={item.id} className="border-t border-border">
-                    <td className="px-4 py-2">
+                    <td data-stack-head className="px-4 py-2">
                       <input type="hidden" name="item_id" value={item.id} />
                       <span className="font-medium text-foreground">{item.name}</span>{" "}
                       <span className="text-muted-foreground">({item.code})</span>
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label="Current balance" className="px-4 py-2">
                       <span className={isLow ? "font-medium text-critical" : "text-muted-foreground"}>
                         {item.current_balance} {item.unit_of_measure}
                       </span>{" "}
                       {isLow && <Badge tone="critical" className="ml-1">Low</Badge>}
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label="Quantity to order" className="px-4 py-2">
                       <Input
                         name={`quantity__${item.id}`}
                         type="number"
@@ -175,10 +175,10 @@ export function PurchaseOrderForm({
                         placeholder="0"
                         value={quantities[item.id] ?? ""}
                         onChange={(e) => setQuantities((prev) => ({ ...prev, [item.id]: e.target.value }))}
-                        className="w-28"
+                        className="w-full md:w-28"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label="Unit cost" className="px-4 py-2">
                       <div className="flex items-center gap-1">
                         <Input
                           name={`unit_cost__${item.id}`}
@@ -188,7 +188,7 @@ export function PurchaseOrderForm({
                           placeholder="0.00"
                           value={unitCosts[item.id] ?? ""}
                           onChange={(e) => setUnitCosts((prev) => ({ ...prev, [item.id]: e.target.value }))}
-                          className="w-28"
+                          className="w-full md:w-28"
                         />
                         {catalogPrice !== undefined && (
                           <span className="shrink-0 text-xs text-muted-foreground" title="This supplier's catalogue price">
@@ -210,7 +210,7 @@ export function PurchaseOrderForm({
       )}
 
       <div className="flex justify-end">
-        <Button type="submit" size="lg" disabled={pending}>
+        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={pending}>
           {pending ? "Saving..." : existingPo ? "Save Changes" : "Create Purchase Order"}
         </Button>
       </div>
@@ -237,8 +237,8 @@ export function PurchaseOrderForm({
                 Unit cost on the order below using this supplier&apos;s prices. You can still edit either
                 afterward.
               </p>
-              <div className="overflow-hidden rounded-lg border border-border">
-                <table className="w-full text-sm">
+              <div className="overflow-x-auto md:rounded-lg md:border md:border-border">
+                <table className="stack-table w-full min-w-[640px] text-sm">
                   <thead className="bg-surface-muted text-left text-muted-foreground">
                     <tr>
                       <th className="px-3 py-2" />
@@ -253,7 +253,7 @@ export function PurchaseOrderForm({
                       if (!item) return null;
                       return (
                         <tr key={itemId} className="border-t border-border">
-                          <td className="px-3 py-2">
+                          <td data-label="Include" className="px-3 py-2">
                             <input
                               type="checkbox"
                               checked={checkedCatalogItems.has(itemId)}
@@ -261,10 +261,10 @@ export function PurchaseOrderForm({
                               aria-label={`Select ${item.name}`}
                             />
                           </td>
-                          <td className="px-3 py-2 text-foreground">
+                          <td data-stack-head className="px-3 py-2 text-foreground">
                             {item.name} <span className="text-muted-foreground">({item.code})</span>
                           </td>
-                          <td className="px-3 py-2 font-medium text-foreground">
+                          <td data-label="Price" className="px-3 py-2 font-medium text-foreground">
                             KES {unitPrice} / {item.unit_of_measure}
                           </td>
                           <td className="px-3 py-2">
@@ -277,7 +277,7 @@ export function PurchaseOrderForm({
                                 setCatalogQuantities((prev) => ({ ...prev, [itemId]: e.target.value }))
                               }
                               disabled={!checkedCatalogItems.has(itemId)}
-                              className="w-24"
+                              className="w-full md:w-24"
                             />
                           </td>
                         </tr>
@@ -288,7 +288,7 @@ export function PurchaseOrderForm({
               </div>
             </>
           )}
-          <div className="flex justify-end gap-2">
+          <div className="flex flex-wrap justify-end gap-2">
             <Button type="button" variant="ghost" onClick={() => setCatalogOpen(false)}>
               {supplierCatalog.length === 0 ? "Close" : "Cancel"}
             </Button>

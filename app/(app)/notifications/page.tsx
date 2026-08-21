@@ -29,8 +29,8 @@ export default async function NotificationsPage() {
         </p>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">When</th>
@@ -55,13 +55,13 @@ export default async function NotificationsPage() {
             )}
             {logs?.map((log) => (
               <tr key={log.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3 text-muted-foreground">{new Date(log.created_at).toLocaleString()}</td>
-                <td className="px-4 py-3"><Badge tone="neutral">{log.channel}</Badge></td>
-                <td className="px-4 py-3 text-foreground">{log.recipient}</td>
-                <td className="px-4 py-3 text-muted-foreground max-w-md truncate" title={log.message}>
+                <td data-stack-head className="px-4 py-3 text-muted-foreground">{new Date(log.created_at).toLocaleString()}</td>
+                <td data-label="Channel" className="px-4 py-3"><Badge tone="neutral">{log.channel}</Badge></td>
+                <td data-label="Recipient" className="px-4 py-3 text-foreground">{log.recipient}</td>
+                <td data-label="Message" className="px-4 py-3 text-muted-foreground max-w-md truncate" title={log.message}>
                   {log.subject ? `${log.subject}: ` : ""}{log.message}
                 </td>
-                <td className="px-4 py-3"><Badge tone={statusTone[log.status] ?? "neutral"}>{log.status}</Badge></td>
+                <td data-label="Status" className="px-4 py-3"><Badge tone={statusTone[log.status] ?? "neutral"}>{log.status}</Badge></td>
               </tr>
             ))}
           </tbody>

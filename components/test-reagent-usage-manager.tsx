@@ -42,7 +42,8 @@ export function TestReagentUsageManager({
           <p className="text-sm text-muted-foreground">No reagents linked yet — this test won&apos;t deduct any stock on result entry.</p>
         )}
         {usage.length > 0 && (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="stack-table w-full min-w-[400px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-3 py-2 font-medium">Item</th>
@@ -53,10 +54,10 @@ export function TestReagentUsageManager({
             <tbody>
               {usage.map((u) => (
                 <tr key={u.id} className="border-t border-border">
-                  <td className="px-3 py-2 text-foreground">
+                  <td data-stack-head className="px-3 py-2 text-foreground">
                     {u.item_name} <span className="text-muted-foreground">({u.item_code})</span>
                   </td>
-                  <td className="px-3 py-2 text-muted-foreground">
+                  <td data-label="Qty per test" className="px-3 py-2 text-muted-foreground">
                     {u.quantity_per_test} {u.unit_of_measure}
                   </td>
                   <td className="px-3 py-2 text-right">
@@ -81,14 +82,15 @@ export function TestReagentUsageManager({
               ))}
             </tbody>
           </table>
+          </div>
         )}
         {removeError && <p className="text-sm text-critical">{removeError}</p>}
 
         <form action={formAction} className="flex flex-wrap items-end gap-2 border-t border-border pt-4">
           <input type="hidden" name="test_id" value={testId} />
-          <div>
+          <div className="min-w-0 flex-1 sm:flex-none">
             <Label htmlFor="item_id">Item</Label>
-            <Select id="item_id" name="item_id" className="h-9 w-56" defaultValue="" required>
+            <Select id="item_id" name="item_id" className="h-9 w-full sm:w-56" defaultValue="" required>
               <option value="" disabled>
                 {availableItems.length === 0 ? "No more items to link" : "Select an item"}
               </option>

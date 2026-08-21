@@ -132,8 +132,8 @@ export default async function SupplierBillDetailPage({
         <CardHeader>
           <CardTitle>Line Items</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Description</th>
@@ -145,10 +145,10 @@ export default async function SupplierBillDetailPage({
             <tbody>
               {bill.items.map((item) => (
                 <tr key={item.id} className="border-t border-border">
-                  <td className="px-4 py-2 text-foreground">{item.description}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{item.quantity}</td>
-                  <td className="px-4 py-2 text-muted-foreground">KES {item.unit_cost}</td>
-                  <td className="px-4 py-2 text-foreground">KES {item.total_amount}</td>
+                  <td data-stack-head className="px-4 py-2 text-foreground">{item.description}</td>
+                  <td data-label="Qty" className="px-4 py-2 text-muted-foreground">{item.quantity}</td>
+                  <td data-label="Unit Cost" className="px-4 py-2 text-muted-foreground">KES {item.unit_cost}</td>
+                  <td data-label="Total" className="px-4 py-2 text-foreground">KES {item.total_amount}</td>
                 </tr>
               ))}
             </tbody>
@@ -171,8 +171,8 @@ export default async function SupplierBillDetailPage({
         <CardHeader>
           <CardTitle>Payment History</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Date</th>
@@ -189,12 +189,12 @@ export default async function SupplierBillDetailPage({
               )}
               {bill.payments.map((p) => (
                 <tr key={p.id} className="border-t border-border">
-                  <td className="px-4 py-2 text-muted-foreground">{new Date(p.paid_at).toLocaleString()}</td>
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2 text-muted-foreground">{new Date(p.paid_at).toLocaleString()}</td>
+                  <td data-label="Method" className="px-4 py-2">
                     <Badge tone="neutral">{p.payment_method.replace(/_/g, " ")}</Badge>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">{p.reference_number ?? "-"}</td>
-                  <td className="px-4 py-2 font-medium text-success">KES {p.amount}</td>
+                  <td data-label="Reference" className="px-4 py-2 text-muted-foreground">{p.reference_number ?? "-"}</td>
+                  <td data-label="Amount" className="px-4 py-2 font-medium text-success">KES {p.amount}</td>
                 </tr>
               ))}
             </tbody>

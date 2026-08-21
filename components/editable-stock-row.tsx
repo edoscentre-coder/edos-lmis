@@ -55,12 +55,12 @@ export function EditableStockRow({
   if (mode === "edit") {
     return (
       <tr className="border-t border-border bg-surface-muted">
-        <td className="px-4 py-2 align-top text-muted-foreground">{new Date(performedAt).toLocaleString()}</td>
+        <td data-stack-head className="px-4 py-2 align-top text-muted-foreground">{new Date(performedAt).toLocaleString()}</td>
         <td colSpan={4} className="px-4 py-2 align-top">
           <form action={formAction} className="flex flex-wrap items-end gap-2">
             <input type="hidden" name="transaction_id" value={id} />
             <input type="hidden" name="item_id" value={itemId} />
-            <Select name="transaction_type" defaultValue={transactionType} className="h-9 w-48">
+            <Select name="transaction_type" defaultValue={transactionType} className="h-9 w-full sm:w-48">
               {typeOptions.map((o) => (
                 <option key={o.value} value={o.value}>
                   {o.label}
@@ -72,10 +72,10 @@ export function EditableStockRow({
               type="number"
               step="0.01"
               defaultValue={Math.abs(quantityChange)}
-              className="h-9 w-28"
+              className="h-9 w-full sm:w-28"
               required
             />
-            <Input name="notes" defaultValue={notes ?? ""} placeholder="Notes" className="h-9 w-48" />
+            <Input name="notes" defaultValue={notes ?? ""} placeholder="Notes" className="h-9 w-full sm:w-48" />
             <Button type="submit" disabled={pending} className="h-9">
               {pending ? "Saving..." : "Save"}
             </Button>
@@ -91,16 +91,16 @@ export function EditableStockRow({
 
   return (
     <tr className="border-t border-border">
-      <td className="px-4 py-2 text-muted-foreground">{new Date(performedAt).toLocaleString()}</td>
-      <td className="px-4 py-2">
+      <td data-stack-head className="px-4 py-2 text-muted-foreground">{new Date(performedAt).toLocaleString()}</td>
+      <td data-label="Type" className="px-4 py-2">
         <Badge tone={typeTone[transactionType] ?? "neutral"}>{transactionType.replace(/_/g, " ")}</Badge>
       </td>
-      <td className={`px-4 py-2 font-medium ${quantityChange < 0 ? "text-critical" : "text-success"}`}>
+      <td data-label="Change" className={`px-4 py-2 font-medium ${quantityChange < 0 ? "text-critical" : "text-success"}`}>
         {quantityChange > 0 ? "+" : ""}
         {quantityChange}
       </td>
-      <td className="px-4 py-2 font-medium text-foreground">{balanceAfter}</td>
-      <td className="px-4 py-2 text-muted-foreground">
+      <td data-label="Balance" className="px-4 py-2 font-medium text-foreground">{balanceAfter}</td>
+      <td data-label="Notes" className="px-4 py-2 text-muted-foreground">
         <div className="flex items-center justify-between gap-2">
           <span>{notes ?? "-"}</span>
           {!confirmingDelete ? (

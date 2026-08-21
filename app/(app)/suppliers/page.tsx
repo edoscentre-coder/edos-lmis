@@ -9,7 +9,7 @@ export default async function SuppliersPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Suppliers</h1>
           <p className="text-sm text-muted-foreground">Commodity/reagent suppliers and their contact details</p>
@@ -19,8 +19,8 @@ export default async function SuppliersPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Name</th>
@@ -43,15 +43,15 @@ export default async function SuppliersPage() {
             )}
             {suppliers.map((s) => (
               <tr key={s.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <Link href={`/suppliers/${s.id}`} className="font-medium text-primary hover:underline">
                     {s.name}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{s.contact_person ?? "-"}</td>
-                <td className="px-4 py-3 text-muted-foreground">{s.phone ?? "-"}</td>
-                <td className="px-4 py-3 text-muted-foreground">{s.email ?? "-"}</td>
-                <td className="px-4 py-3">
+                <td data-label="Contact person" className="px-4 py-3 text-muted-foreground">{s.contact_person ?? "-"}</td>
+                <td data-label="Phone" className="px-4 py-3 text-muted-foreground">{s.phone ?? "-"}</td>
+                <td data-label="Email" className="px-4 py-3 text-muted-foreground">{s.email ?? "-"}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <Badge tone={s.is_active ? "success" : "neutral"}>{s.is_active ? "Active" : "Inactive"}</Badge>
                 </td>
               </tr>

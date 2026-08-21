@@ -58,8 +58,8 @@ function Worklist({
           {title} ({rows.length})
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-0">
-        <table className="w-full text-sm">
+      <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-2 font-medium">Order</th>
@@ -83,10 +83,10 @@ function Worklist({
               const { orderNumber, patientName } = orderInfo(row);
               return (
                 <tr key={row.id} className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-4 py-2 text-muted-foreground">{orderNumber}</td>
-                  <td className="px-4 py-2 text-foreground">{patientName}</td>
-                  <td className="px-4 py-2 text-foreground">{testName(row)}</td>
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2 text-muted-foreground">{orderNumber}</td>
+                  <td data-label="Patient" className="px-4 py-2 text-foreground">{patientName}</td>
+                  <td data-label="Test" className="px-4 py-2 text-foreground">{testName(row)}</td>
+                  <td data-label="Status" className="px-4 py-2">
                     <Badge tone="info">{row.status}</Badge>
                   </td>
                   <td className="px-4 py-2">

@@ -48,11 +48,11 @@ export function CorrectPurchaseOrderModal({
         <form action={formAction} className="space-y-4">
           <input type="hidden" name="po_id" value={poId} />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <Label htmlFor="order_date">Order date</Label>
               <Input id="order_date" name="order_date" type="date" defaultValue={orderDate} required />
             </div>
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <Label htmlFor="supplier_invoice_number">Supplier invoice number</Label>
               <Input
                 id="supplier_invoice_number"
@@ -70,7 +70,7 @@ export function CorrectPurchaseOrderModal({
                 <div key={line.id} className="flex flex-wrap items-end gap-2">
                   <input type="hidden" name="line_id" value={line.id} />
                   <p className="min-w-[9rem] flex-1 text-sm text-foreground">{line.itemName}</p>
-                  <div>
+                  <div className="min-w-0 flex-1 sm:flex-none">
                     <Label htmlFor={`quantity__${line.id}`} className="text-xs">Received qty</Label>
                     <Input
                       id={`quantity__${line.id}`}
@@ -80,10 +80,10 @@ export function CorrectPurchaseOrderModal({
                       min="0"
                       defaultValue={line.quantityReceived}
                       placeholder={line.unitOfMeasure}
-                      className="h-9 w-24"
+                      className="h-9 w-full sm:w-24"
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1 sm:flex-none">
                     <Label htmlFor={`unit_cost__${line.id}`} className="text-xs">Unit cost</Label>
                     <Input
                       id={`unit_cost__${line.id}`}
@@ -93,12 +93,12 @@ export function CorrectPurchaseOrderModal({
                       min="0"
                       defaultValue={line.unitCost ?? ""}
                       placeholder="KES"
-                      className="h-9 w-24"
+                      className="h-9 w-full sm:w-24"
                     />
                   </div>
                 </div>
               ))}
-              <div>
+              <div className="min-w-0 flex-1 sm:flex-none">
                 <Label htmlFor="reason" className="text-xs">Reason for quantity/cost changes</Label>
                 <Input id="reason" name="reason" placeholder="e.g. miscounted on receipt" />
               </div>

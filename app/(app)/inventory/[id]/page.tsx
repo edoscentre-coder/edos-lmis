@@ -128,8 +128,8 @@ export default async function InventoryItemPage({
         <CardHeader>
           <CardTitle>Stock Card</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Date</th>
@@ -167,20 +167,20 @@ export default async function InventoryItemPage({
                 }
                 return (
                   <tr key={t.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-stack-head className="px-4 py-2 text-muted-foreground">
                       {new Date(t.performed_at).toLocaleString()}
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label="Type" className="px-4 py-2">
                       <Badge tone={typeTone[t.transaction_type] ?? "neutral"}>
                         {t.transaction_type.replace(/_/g, " ")}
                       </Badge>
                     </td>
-                    <td className={`px-4 py-2 font-medium ${t.quantity_change < 0 ? "text-critical" : "text-success"}`}>
+                    <td data-label="Change" className={`px-4 py-2 font-medium ${t.quantity_change < 0 ? "text-critical" : "text-success"}`}>
                       {t.quantity_change > 0 ? "+" : ""}
                       {t.quantity_change}
                     </td>
-                    <td className="px-4 py-2 font-medium text-foreground">{t.balance_after}</td>
-                    <td className="px-4 py-2 text-muted-foreground">{t.notes ?? "-"}</td>
+                    <td data-label="Balance" className="px-4 py-2 font-medium text-foreground">{t.balance_after}</td>
+                    <td data-label="Notes" className="px-4 py-2 text-muted-foreground">{t.notes ?? "-"}</td>
                   </tr>
                 );
               })}
@@ -200,8 +200,8 @@ export default async function InventoryItemPage({
         <CardHeader>
           <CardTitle>Batches</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-x-auto p-2 md:p-0">
+          <table className="stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Batch No.</th>

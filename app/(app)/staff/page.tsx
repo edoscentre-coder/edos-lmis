@@ -47,8 +47,8 @@ export default async function StaffPage() {
         <CardHeader>
           <CardTitle>Staff & roles</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-3 font-medium">Name</th>
@@ -66,12 +66,12 @@ export default async function StaffPage() {
               )}
               {members.map((m) => (
                 <tr key={m.user_id} className="border-t border-border">
-                  <td className="px-4 py-3 font-medium text-foreground">{m.first_name} {m.last_name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{m.staff_category ?? "-"}</td>
-                  <td className="px-4 py-3">
+                  <td data-stack-head className="px-4 py-3 font-medium text-foreground">{m.first_name} {m.last_name}</td>
+                  <td data-label="Category" className="px-4 py-3 text-muted-foreground">{m.staff_category ?? "-"}</td>
+                  <td data-label="Status" className="px-4 py-3">
                     <StaffActiveToggle userId={m.user_id} isActive={m.is_active} />
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label="Roles" className="px-4 py-3">
                     <div className="flex flex-wrap gap-2">
                       {m.roles.length === 0 && <span className="text-muted-foreground">No roles assigned</span>}
                       {m.roles.map((r) => (
@@ -84,7 +84,7 @@ export default async function StaffPage() {
                       ))}
                     </div>
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label="Custom access" className="px-4 py-3">
                     <EditStaffPermissionsButton
                       userId={m.user_id}
                       staffName={`${m.first_name} ${m.last_name}`}

@@ -23,11 +23,13 @@ export function LabStockReportTable({ rows }: { rows: LabStockReportRow[] }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-border">
-      <table className="w-full min-w-[1700px] text-sm">
+    <div className="overflow-auto md:max-h-[70vh] md:rounded-lg md:border md:border-border">
+      <table className="stack-table sticky-head sticky-col w-full min-w-[1700px] text-sm">
         <thead className="bg-surface-muted text-left text-muted-foreground">
           <tr>
-            <th className="w-8 px-3 py-2 font-medium" />
+            {/* The expand toggle lives inside the Commodity cell so that
+                Commodity is the first column and can be frozen while the
+                fourteen figures beside it are scrolled. */}
             <th className="px-3 py-2 font-medium">Commodity</th>
             <th className="px-3 py-2 font-medium">Beginning Balance</th>
             <th className="px-3 py-2 font-medium">Qty Received (KEMSA)</th>
@@ -47,7 +49,7 @@ export function LabStockReportTable({ rows }: { rows: LabStockReportRow[] }) {
         <tbody>
           {rows.length === 0 && (
             <tr>
-              <td colSpan={15} className="px-4 py-6 text-center text-muted-foreground">
+              <td colSpan={14} className="px-4 py-6 text-center text-muted-foreground">
                 No lab stock checks recorded for this period.
               </td>
             </tr>
@@ -58,40 +60,42 @@ export function LabStockReportTable({ rows }: { rows: LabStockReportRow[] }) {
             return (
               <Fragment key={row.itemId}>
                 <tr className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-3 py-2">
-                    <button
-                      type="button"
-                      onClick={() => toggle(row.itemId)}
-                      disabled={row.dailyRows.length === 0}
-                      className="text-muted-foreground disabled:opacity-30"
-                      aria-label="Toggle daily breakdown"
-                    >
-                      {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                    </button>
+                  <td data-stack-head className="px-3 py-2 font-medium text-foreground">
+                    <span className="flex items-start gap-2">
+                      <button
+                        type="button"
+                        onClick={() => toggle(row.itemId)}
+                        disabled={row.dailyRows.length === 0}
+                        className="mt-0.5 shrink-0 text-muted-foreground disabled:opacity-30"
+                        aria-label="Toggle daily breakdown"
+                      >
+                        {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                      </button>
+                      <span className="min-w-0">
+                        {row.name} <span className="text-muted-foreground">({row.code})</span>
+                        {row.departmentName && (
+                          <span className="ml-1 text-xs text-muted-foreground">&middot; {row.departmentName}</span>
+                        )}
+                      </span>
+                    </span>
                   </td>
-                  <td className="px-3 py-2 font-medium text-foreground">
-                    {row.name} <span className="text-muted-foreground">({row.code})</span>
-                    {row.departmentName && (
-                      <span className="ml-1 text-xs text-muted-foreground">&middot; {row.departmentName}</span>
-                    )}
-                  </td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.beginningBalance)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.qtyReceived)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.qtyReceivedOtherSources)}</td>
-                  <td className="px-3 py-2 font-medium text-foreground">{fmt(row.quantityUsed)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.testsDone)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.qaqcRepeats)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.lossesWastage)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.positiveAdjustments)}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.negativeAdjustments)}</td>
-                  <td className="px-3 py-2">
+                  <td data-label="Beginning Balance" className="px-3 py-2 text-muted-foreground">{fmt(row.beginningBalance)}</td>
+                  <td data-label="Qty Received (KEMSA)" className="px-3 py-2 text-muted-foreground">{fmt(row.qtyReceived)}</td>
+                  <td data-label="Qty Received (Other)" className="px-3 py-2 text-muted-foreground">{fmt(row.qtyReceivedOtherSources)}</td>
+                  <td data-label="Quantity Used" className="px-3 py-2 font-medium text-foreground">{fmt(row.quantityUsed)}</td>
+                  <td data-label="Tests Done" className="px-3 py-2 text-muted-foreground">{fmt(row.testsDone)}</td>
+                  <td data-label="QAQC Repeats" className="px-3 py-2 text-muted-foreground">{fmt(row.qaqcRepeats)}</td>
+                  <td data-label="Losses/Wastage" className="px-3 py-2 text-muted-foreground">{fmt(row.lossesWastage)}</td>
+                  <td data-label="Positive Adj." className="px-3 py-2 text-muted-foreground">{fmt(row.positiveAdjustments)}</td>
+                  <td data-label="Negative Adj." className="px-3 py-2 text-muted-foreground">{fmt(row.negativeAdjustments)}</td>
+                  <td data-label="Expiring <6mo" className="px-3 py-2">
                     {row.expiringUnder6Months > 0 ? (
                       <Badge tone="warning">{fmt(row.expiringUnder6Months)}</Badge>
                     ) : (
                       <span className="text-muted-foreground">0</span>
                     )}
                   </td>
-                  <td className="px-3 py-2">
+                  <td data-label="#Stocked Out" className="px-3 py-2">
                     {row.stockedOutQty > 0 ? (
                       <Badge tone="critical">{fmt(row.stockedOutQty)}</Badge>
                     ) : (
@@ -99,19 +103,20 @@ export function LabStockReportTable({ rows }: { rows: LabStockReportRow[] }) {
                     )}
                   </td>
                   <td
+                    data-label="Physical Count"
                     className={`px-3 py-2 font-medium ${
                       row.hasDiscrepancy ? "bg-critical/15 text-critical" : isLow ? "text-warning" : "text-foreground"
                     }`}
                   >
                     {fmt(row.physicalCount)}
                   </td>
-                  <td className="px-3 py-2 text-muted-foreground">{fmt(row.quantityRequiredSupply)}</td>
+                  <td data-label="Qty Required (Supply)" className="px-3 py-2 text-muted-foreground">{fmt(row.quantityRequiredSupply)}</td>
                 </tr>
                 {isOpen && row.dailyRows.length > 0 && (
                   <tr className="border-t border-border bg-surface-muted/50">
-                    <td />
                     <td colSpan={14} className="px-3 py-2">
-                      <table className="w-full text-xs">
+                      <div className="overflow-x-auto">
+                      <table className="w-full min-w-[520px] text-xs">
                         <thead className="text-muted-foreground">
                           <tr>
                             <th className="px-2 py-1 text-left font-medium">Date</th>
@@ -154,6 +159,7 @@ export function LabStockReportTable({ rows }: { rows: LabStockReportRow[] }) {
                           })}
                         </tbody>
                       </table>
+                      </div>
                     </td>
                   </tr>
                 )}

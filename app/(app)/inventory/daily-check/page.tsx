@@ -106,8 +106,8 @@ export default async function DailyCheckPage({
             same way.
           </p>
         </div>
-        <form className="flex items-end gap-2">
-          <div>
+        <form className="flex w-full flex-wrap items-end gap-2 sm:w-auto">
+          <div className="min-w-0 flex-1 sm:flex-none">
             <Label htmlFor="date">Date</Label>
             <Input id="date" name="date" type="date" defaultValue={date} max={todayStr()} />
           </div>
@@ -129,7 +129,7 @@ export default async function DailyCheckPage({
             })}
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-2 sm:p-4">
           <DailyLabStockCheckForm date={date} rows={rows} />
         </CardContent>
       </Card>

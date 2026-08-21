@@ -67,8 +67,8 @@ export function RfqForm({
         <CardHeader>
           <CardTitle>Commodities to quote</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-x-auto p-2 md:p-0">
+          <table className="stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Commodity</th>
@@ -80,12 +80,12 @@ export function RfqForm({
                 const existingLine = lineByItem.get(item.id);
                 return (
                   <tr key={item.id} className="border-t border-border">
-                    <td className="px-4 py-2">
+                    <td data-stack-head className="px-4 py-2">
                       <input type="hidden" name="item_id" value={item.id} />
                       <span className="font-medium text-foreground">{item.name}</span>{" "}
                       <span className="text-muted-foreground">({item.code})</span>
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label="Quantity requested" className="px-4 py-2">
                       <Input
                         name={`quantity__${item.id}`}
                         type="number"
@@ -93,7 +93,7 @@ export function RfqForm({
                         min="0"
                         placeholder="0"
                         defaultValue={existingLine?.quantity_requested ?? ""}
-                        className="w-28"
+                        className="w-full md:w-28"
                       />
                     </td>
                   </tr>
@@ -109,7 +109,7 @@ export function RfqForm({
       )}
 
       <div className="flex justify-end">
-        <Button type="submit" size="lg" disabled={pending}>
+        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={pending}>
           {pending ? "Saving..." : existingRfq ? "Save Changes" : "Create RFQ"}
         </Button>
       </div>

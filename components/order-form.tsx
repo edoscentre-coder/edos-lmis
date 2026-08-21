@@ -89,13 +89,13 @@ export function OrderForm({
           {panels.map((panel) => (
             <label
               key={panel.id}
-              className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm hover:bg-surface-muted"
+              className="flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-sm hover:bg-surface-muted"
             >
-              <span>
+              <span className="min-w-0">
                 <span className="font-medium text-foreground">{panel.name}</span>{" "}
                 <Badge tone="neutral" className="ml-1">{deptName(panel.department_id)}</Badge>
               </span>
-              <span className="flex items-center gap-2">
+              <span className="flex shrink-0 items-center gap-2">
                 <span className="text-muted-foreground">KES {panel.price}</span>
                 <input type="checkbox" name="panel_ids" value={panel.id} />
               </span>
@@ -112,13 +112,13 @@ export function OrderForm({
           {tests.map((test) => (
             <label
               key={test.id}
-              className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm hover:bg-surface-muted"
+              className="flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-sm hover:bg-surface-muted"
             >
-              <span>
+              <span className="min-w-0">
                 <span className="font-medium text-foreground">{test.name}</span>{" "}
                 <Badge tone="neutral" className="ml-1">{deptName(test.department_id)}</Badge>
               </span>
-              <span className="flex items-center gap-2">
+              <span className="flex shrink-0 items-center gap-2">
                 <span className="text-muted-foreground">KES {test.price}</span>
                 <input type="checkbox" name="test_ids" value={test.id} />
               </span>
@@ -132,7 +132,7 @@ export function OrderForm({
       )}
 
       <div className="flex justify-end">
-        <Button type="submit" size="lg" disabled={pending || !patient}>
+        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={pending || !patient}>
           {pending ? "Creating order..." : "Create Order"}
         </Button>
       </div>

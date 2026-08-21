@@ -64,12 +64,12 @@ export function MolecularWorkup({
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
           <CardTitle>{molecularRun.assay_name}</CardTitle>
           <Badge tone={molecularRun.status === "completed" ? "success" : "info"}>{molecularRun.status.replace(/_/g, " ")}</Badge>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Target</th>
@@ -83,9 +83,9 @@ export function MolecularWorkup({
               )}
               {targets.map((t) => (
                 <tr key={t.id} className="border-t border-border">
-                  <td className="px-4 py-2 text-foreground">{t.target_name}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{t.ct_value ?? "-"}</td>
-                  <td className="px-4 py-2"><Badge tone={resultTone[t.result] ?? "neutral"}>{t.result.replace("_", " ")}</Badge></td>
+                  <td data-stack-head className="px-4 py-2 text-foreground">{t.target_name}</td>
+                  <td data-label="Ct Value" className="px-4 py-2 text-muted-foreground">{t.ct_value ?? "-"}</td>
+                  <td data-label="Result" className="px-4 py-2"><Badge tone={resultTone[t.result] ?? "neutral"}>{t.result.replace("_", " ")}</Badge></td>
                 </tr>
               ))}
             </tbody>

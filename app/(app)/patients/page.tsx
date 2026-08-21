@@ -37,7 +37,7 @@ export default async function PatientsPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">{t.title}</h1>
           <p className="text-sm text-muted-foreground">{t.subtitle}</p>
@@ -58,8 +58,8 @@ export default async function PatientsPage({
         {q && <ClearFiltersButton href="/patients" />}
       </form>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">{t.colPatientNo}</th>
@@ -87,19 +87,19 @@ export default async function PatientsPage({
             )}
             {patients?.map((p) => (
               <tr key={p.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <Link href={`/patients/${p.id}`} className="font-medium text-primary hover:underline">
                     {p.patient_number}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-foreground">
+                <td data-label={t.colName} className="px-4 py-3 text-foreground">
                   {p.first_name} {p.last_name}
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">
+                <td data-label={t.colGenderAge} className="px-4 py-3 text-muted-foreground">
                   {p.gender ?? "-"} / {calculateAge(p.date_of_birth) ?? "-"}
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{p.phone_primary ?? "-"}</td>
-                <td className="px-4 py-3">
+                <td data-label={t.colPhone} className="px-4 py-3 text-muted-foreground">{p.phone_primary ?? "-"}</td>
+                <td data-label={t.colCategory} className="px-4 py-3">
                   <Badge tone="neutral">{p.patient_category}</Badge>
                 </td>
                 <td className="px-4 py-3">

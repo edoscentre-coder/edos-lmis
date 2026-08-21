@@ -99,8 +99,8 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
             New purchase order
           </Link>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">PO Number</th>
@@ -117,14 +117,14 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
               )}
               {orders?.map((po) => (
                 <tr key={po.id} className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2">
                     <Link href={`/purchase-orders/${po.id}`} className="font-medium text-primary hover:underline">
                       {po.po_number}
                     </Link>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">{po.order_date}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{po.expected_date ?? "-"}</td>
-                  <td className="px-4 py-2">
+                  <td data-label="Order date" className="px-4 py-2 text-muted-foreground">{po.order_date}</td>
+                  <td data-label="Expected" className="px-4 py-2 text-muted-foreground">{po.expected_date ?? "-"}</td>
+                  <td data-label="Status" className="px-4 py-2">
                     <Badge tone={poStatusTone[po.status] ?? "neutral"}>{po.status.replace(/_/g, " ")}</Badge>
                   </td>
                 </tr>
@@ -143,8 +143,8 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
             </Link>
           )}
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Bill</th>
@@ -162,19 +162,19 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
               )}
               {bills?.map((bill) => (
                 <tr key={bill.id} className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2">
                     <Link href={`/supplier-bills/${bill.id}`} className="font-medium text-primary hover:underline">
                       {bill.bill_number}
                     </Link>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">{bill.bill_date}</td>
-                  <td className="px-4 py-2 text-foreground">KES {bill.total_amount}</td>
-                  <td className="px-4 py-2">
+                  <td data-label="Date" className="px-4 py-2 text-muted-foreground">{bill.bill_date}</td>
+                  <td data-label="Total" className="px-4 py-2 text-foreground">KES {bill.total_amount}</td>
+                  <td data-label="Balance Due" className="px-4 py-2">
                     <span className={Number(bill.balance_due) > 0 ? "font-medium text-critical" : "text-muted-foreground"}>
                       KES {bill.balance_due}
                     </span>
                   </td>
-                  <td className="px-4 py-2">
+                  <td data-label="Status" className="px-4 py-2">
                     <Badge tone={billStatusTone[bill.status] ?? "neutral"}>{bill.status.replace(/_/g, " ")}</Badge>
                   </td>
                 </tr>
@@ -194,8 +194,8 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
             instead of typing every unit cost by hand.
           </p>
           <SupplierCatalogForm supplierId={supplier.id} items={procurableItems} />
-          <div className="overflow-hidden rounded-lg border border-border">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-lg border border-border">
+            <table className="stack-table w-full min-w-[640px] text-sm">
               <thead className="bg-surface-muted text-left text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2 font-medium">Commodity</th>
@@ -214,11 +214,11 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
                 )}
                 {catalog.map((entry) => (
                   <tr key={entry.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-foreground">
+                    <td data-stack-head className="px-4 py-2 text-foreground">
                       {entry.itemName} <span className="text-muted-foreground">({entry.itemCode})</span>
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{entry.supplierSku ?? "-"}</td>
-                    <td className="px-4 py-2 font-medium text-foreground">
+                    <td data-label="Supplier SKU" className="px-4 py-2 text-muted-foreground">{entry.supplierSku ?? "-"}</td>
+                    <td data-label="Price" className="px-4 py-2 font-medium text-foreground">
                       KES {entry.unitPrice} / {entry.unitOfMeasure}
                     </td>
                     <td className="px-4 py-2 text-right">

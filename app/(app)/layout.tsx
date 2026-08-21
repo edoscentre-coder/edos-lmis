@@ -10,12 +10,20 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const locale = await getLocale();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-dvh overflow-hidden bg-background">
       <Sidebar locale={locale} isPlatformAdmin={staff.isPlatformAdmin} />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar staffName={`${staff.firstName} ${staff.lastName}`} branchLabel={staff.branchName ?? ""} locale={locale} />
+      {/* min-w-0 is what keeps a wide table inside its own scroll container:
+          without it this flex child refuses to shrink below its content width
+          and the whole page scrolls sideways instead. */}
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <Topbar
+          staffName={`${staff.firstName} ${staff.lastName}`}
+          branchLabel={staff.branchName ?? ""}
+          locale={locale}
+          isPlatformAdmin={staff.isPlatformAdmin}
+        />
         <OfflineIndicator />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+        <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 lg:p-6">
           <BackButton />
           {children}
         </main>

@@ -16,7 +16,7 @@ export default async function DonorsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Blood Donors</h1>
           <p className="text-sm text-muted-foreground">Donor registry</p>
@@ -26,8 +26,8 @@ export default async function DonorsPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Donor</th>
@@ -50,18 +50,18 @@ export default async function DonorsPage() {
             )}
             {donors?.map((d) => (
               <tr key={d.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <Link href={`/blood-bank/donors/${d.id}`} className="font-medium text-primary hover:underline">
                     {d.first_name} {d.last_name}
                   </Link>
                   <span className="ml-1 text-muted-foreground">({d.donor_number})</span>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{d.donor_type}</td>
-                <td className="px-4 py-3">
+                <td data-label="Type" className="px-4 py-3 text-muted-foreground">{d.donor_type}</td>
+                <td data-label="Blood Group" className="px-4 py-3">
                   <Badge tone="neutral">{d.blood_group ? BLOOD_GROUP_LABELS[d.blood_group] : "Unknown"}</Badge>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{d.last_donation_date ?? "-"}</td>
-                <td className="px-4 py-3">
+                <td data-label="Last Donation" className="px-4 py-3 text-muted-foreground">{d.last_donation_date ?? "-"}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <Badge tone={d.is_active ? "success" : "neutral"}>{d.is_active ? "Active" : "Deferred"}</Badge>
                 </td>
               </tr>

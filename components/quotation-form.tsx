@@ -112,8 +112,8 @@ export function QuotationForm({ existingQuotation }: { existingQuotation?: Exist
         <CardHeader>
           <CardTitle>Line items</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-x-auto p-2 md:p-0">
+          <table className="stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Description</th>
@@ -127,7 +127,7 @@ export function QuotationForm({ existingQuotation }: { existingQuotation?: Exist
             <tbody>
               {rows.map((row) => (
                 <tr key={row.key} className="border-t border-border align-top">
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2">
                     <Input
                       name="item_description"
                       value={row.description}
@@ -135,7 +135,7 @@ export function QuotationForm({ existingQuotation }: { existingQuotation?: Exist
                       placeholder="e.g. 200W Solar Panel"
                     />
                   </td>
-                  <td className="px-4 py-2">
+                  <td data-label="Qty" className="px-4 py-2">
                     <Input
                       name="item_quantity"
                       type="number"
@@ -143,19 +143,19 @@ export function QuotationForm({ existingQuotation }: { existingQuotation?: Exist
                       min="0"
                       value={row.quantity}
                       onChange={(e) => updateRow(row.key, "quantity", e.target.value)}
-                      className="w-24"
+                      className="w-full md:w-24"
                     />
                   </td>
-                  <td className="px-4 py-2">
+                  <td data-label="Unit" className="px-4 py-2">
                     <Input
                       name="item_unit"
                       value={row.unit}
                       onChange={(e) => updateRow(row.key, "unit", e.target.value)}
                       placeholder="piece"
-                      className="w-24"
+                      className="w-full md:w-24"
                     />
                   </td>
-                  <td className="px-4 py-2">
+                  <td data-label="Unit price" className="px-4 py-2">
                     <Input
                       name="item_unit_price"
                       type="number"
@@ -163,10 +163,10 @@ export function QuotationForm({ existingQuotation }: { existingQuotation?: Exist
                       min="0"
                       value={row.unit_price}
                       onChange={(e) => updateRow(row.key, "unit_price", e.target.value)}
-                      className="w-28"
+                      className="w-full md:w-28"
                     />
                   </td>
-                  <td className="px-4 py-2 text-foreground">
+                  <td data-label="Amount" className="px-4 py-2 text-foreground">
                     {((Number(row.quantity) || 0) * (Number(row.unit_price) || 0)).toFixed(2)}
                   </td>
                   <td className="px-4 py-2">
@@ -198,7 +198,7 @@ export function QuotationForm({ existingQuotation }: { existingQuotation?: Exist
       )}
 
       <div className="flex justify-end">
-        <Button type="submit" size="lg" disabled={pending}>
+        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={pending}>
           {pending ? "Saving..." : existingQuotation ? "Save Changes" : "Create Quotation"}
         </Button>
       </div>

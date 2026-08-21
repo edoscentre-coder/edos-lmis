@@ -81,8 +81,8 @@ export default async function RfqDetailPage({ params }: { params: Promise<{ id: 
         <CardHeader>
           <CardTitle>Commodities requested</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Commodity</th>
@@ -92,11 +92,11 @@ export default async function RfqDetailPage({ params }: { params: Promise<{ id: 
             <tbody>
               {rfq.lines.map((line) => (
                 <tr key={line.id} className="border-t border-border">
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2">
                     <span className="font-medium text-foreground">{line.item?.name ?? "Unknown item"}</span>{" "}
                     <span className="text-muted-foreground">({line.item?.code})</span>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">
+                  <td data-label="Quantity requested" className="px-4 py-2 text-muted-foreground">
                     {line.quantity_requested} {line.item?.unit_of_measure}
                   </td>
                 </tr>
@@ -110,8 +110,8 @@ export default async function RfqDetailPage({ params }: { params: Promise<{ id: 
         <CardHeader>
           <CardTitle>Supplier responses</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Supplier</th>
@@ -127,7 +127,7 @@ export default async function RfqDetailPage({ params }: { params: Promise<{ id: 
               )}
               {rfq.suppliers.map((s) => (
                 <tr key={s.id} className="border-t border-border align-top">
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2">
                     {s.supplier ? (
                       <Link href={`/suppliers/${s.supplier.id}`} className="font-medium text-primary hover:underline">
                         {s.supplier.name}
@@ -137,10 +137,10 @@ export default async function RfqDetailPage({ params }: { params: Promise<{ id: 
                     )}
                     {!s.supplier?.email && <p className="text-xs text-muted-foreground">No email on file</p>}
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">
+                  <td data-label="Sent" className="px-4 py-2 text-muted-foreground">
                     {s.sent_at ? new Date(s.sent_at).toLocaleDateString() : "-"}
                   </td>
-                  <td className="px-4 py-2">
+                  <td data-label="Quote" className="px-4 py-2">
                     <RfqResponseForm
                       rfqId={rfq.id}
                       rfqSupplierId={s.id}

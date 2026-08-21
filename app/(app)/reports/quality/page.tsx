@@ -187,7 +187,7 @@ export default async function QualityReportPage({
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="stack-table w-full min-w-[640px] text-sm">
               <thead className="bg-surface-muted text-left text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2 font-medium">Test</th>
@@ -209,15 +209,15 @@ export default async function QualityReportPage({
                 )}
                 {qcRows.map((row) => (
                   <tr key={row.materialId} className="border-t border-border">
-                    <td className="px-4 py-2 text-foreground">{row.testName}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-stack-head className="px-4 py-2 text-foreground">{row.testName}</td>
+                    <td data-label="Level / Lot" className="px-4 py-2 text-muted-foreground">
                       {row.level} &middot; {row.lotNumber}
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{row.totalRuns}</td>
-                    <td className="px-4 py-2 text-success">{row.accepted}</td>
-                    <td className="px-4 py-2 text-warning">{row.warning}</td>
-                    <td className="px-4 py-2 text-critical">{row.rejected}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label="Runs" className="px-4 py-2 text-muted-foreground">{row.totalRuns}</td>
+                    <td data-label="Accepted" className="px-4 py-2 text-success">{row.accepted}</td>
+                    <td data-label="Warning" className="px-4 py-2 text-warning">{row.warning}</td>
+                    <td data-label="Rejected" className="px-4 py-2 text-critical">{row.rejected}</td>
+                    <td data-label="Rules Violated" className="px-4 py-2 text-muted-foreground">
                       {Object.keys(row.violationCounts).length > 0
                         ? Object.entries(row.violationCounts)
                             .map(([rule, count]) => `${ruleLabels[rule] ?? rule} (${count})`)
@@ -238,7 +238,7 @@ export default async function QualityReportPage({
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="stack-table w-full min-w-[640px] text-sm">
               <thead className="bg-surface-muted text-left text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2 font-medium">Instrument</th>
@@ -258,15 +258,15 @@ export default async function QualityReportPage({
                 )}
                 {downtimeRows.map((d) => (
                   <tr key={d.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-foreground">
+                    <td data-stack-head className="px-4 py-2 text-foreground">
                       {d.equipmentName} ({d.equipmentCode})
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{d.reason}</td>
-                    <td className="px-4 py-2 text-muted-foreground">{new Date(d.startedAt).toLocaleString()}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label="Reason" className="px-4 py-2 text-muted-foreground">{d.reason}</td>
+                    <td data-label="Started" className="px-4 py-2 text-muted-foreground">{new Date(d.startedAt).toLocaleString()}</td>
+                    <td data-label="Resolved" className="px-4 py-2 text-muted-foreground">
                       {d.endedAt ? new Date(d.endedAt).toLocaleString() : <Badge tone="critical">Ongoing</Badge>}
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{d.hours !== null ? `${d.hours.toFixed(1)}h` : "-"}</td>
+                    <td data-label="Duration" className="px-4 py-2 text-muted-foreground">{d.hours !== null ? `${d.hours.toFixed(1)}h` : "-"}</td>
                   </tr>
                 ))}
               </tbody>

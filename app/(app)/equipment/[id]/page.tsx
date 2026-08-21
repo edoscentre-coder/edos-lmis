@@ -150,7 +150,8 @@ export default async function EquipmentDetailPage({
           )}
 
           {(downtimeLogs?.length ?? 0) > 0 && (
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto">
+            <table className="stack-table w-full min-w-[480px] text-sm">
               <thead className="text-left text-muted-foreground">
                 <tr>
                   <th className="py-1 font-medium">Started</th>
@@ -161,13 +162,14 @@ export default async function EquipmentDetailPage({
               <tbody>
                 {downtimeLogs?.map((d) => (
                   <tr key={d.id} className="border-t border-border">
-                    <td className="py-1.5 text-muted-foreground">{new Date(d.started_at).toLocaleString()}</td>
-                    <td className="py-1.5 text-muted-foreground">{d.ended_at ? new Date(d.ended_at).toLocaleString() : "-"}</td>
-                    <td className="py-1.5 text-foreground">{d.reason}</td>
+                    <td data-stack-head className="py-1.5 text-muted-foreground">{new Date(d.started_at).toLocaleString()}</td>
+                    <td data-label="Ended" className="py-1.5 text-muted-foreground">{d.ended_at ? new Date(d.ended_at).toLocaleString() : "-"}</td>
+                    <td data-label="Reason" className="py-1.5 text-foreground">{d.reason}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </CardContent>
       </Card>
@@ -185,8 +187,8 @@ export default async function EquipmentDetailPage({
         <CardHeader>
           <CardTitle>Service History</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Date</th>
@@ -205,16 +207,16 @@ export default async function EquipmentDetailPage({
               )}
               {logs?.map((log) => (
                 <tr key={log.id} className="border-t border-border">
-                  <td className="px-4 py-2 text-muted-foreground">{new Date(log.performed_at).toLocaleString()}</td>
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2 text-muted-foreground">{new Date(log.performed_at).toLocaleString()}</td>
+                  <td data-label="Type" className="px-4 py-2">
                     <Badge tone={maintenanceTypeTone[log.maintenance_type] ?? "neutral"}>
                       {log.maintenance_type}
                     </Badge>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">{log.vendor_name ?? "-"}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{log.cost ? `KES ${log.cost}` : "-"}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{log.downtime_hours}h</td>
-                  <td className="px-4 py-2 text-muted-foreground">{log.description ?? "-"}</td>
+                  <td data-label="Vendor" className="px-4 py-2 text-muted-foreground">{log.vendor_name ?? "-"}</td>
+                  <td data-label="Cost" className="px-4 py-2 text-muted-foreground">{log.cost ? `KES ${log.cost}` : "-"}</td>
+                  <td data-label="Downtime" className="px-4 py-2 text-muted-foreground">{log.downtime_hours}h</td>
+                  <td data-label="Notes" className="px-4 py-2 text-muted-foreground">{log.description ?? "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -226,8 +228,8 @@ export default async function EquipmentDetailPage({
         <CardHeader>
           <CardTitle>Recent QC Runs on This Instrument</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Date</th>
@@ -253,13 +255,13 @@ export default async function EquipmentDetailPage({
                 } | null;
                 return (
                   <tr key={r.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-muted-foreground">{new Date(r.run_at).toLocaleString()}</td>
-                    <td className="px-4 py-2 text-foreground">{material?.edoslmis_tests?.name ?? "-"}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-stack-head className="px-4 py-2 text-muted-foreground">{new Date(r.run_at).toLocaleString()}</td>
+                    <td data-label="Test" className="px-4 py-2 text-foreground">{material?.edoslmis_tests?.name ?? "-"}</td>
+                    <td data-label="Level / Lot" className="px-4 py-2 text-muted-foreground">
                       {material?.level} &middot; {material?.lot_number}
                     </td>
-                    <td className="px-4 py-2 font-medium text-foreground">{r.value}</td>
-                    <td className="px-4 py-2">
+                    <td data-label="Value" className="px-4 py-2 font-medium text-foreground">{r.value}</td>
+                    <td data-label="Status" className="px-4 py-2">
                       <Badge tone={qcStatusTone[r.status] ?? "neutral"}>{r.status}</Badge>
                     </td>
                   </tr>

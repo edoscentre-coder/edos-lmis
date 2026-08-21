@@ -164,8 +164,8 @@ export default async function ResultDetailPage({
           <CardHeader>
             <CardTitle>Results</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <table className="w-full text-sm">
+          <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+            <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
               <thead className="bg-surface-muted text-left text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2 font-medium">Parameter</th>
@@ -177,12 +177,12 @@ export default async function ResultDetailPage({
               <tbody>
                 {results?.map((r) => (
                   <tr key={r.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-foreground">{componentName(r.component_id)}</td>
-                    <td className="px-4 py-2 font-medium text-foreground">
+                    <td data-stack-head className="px-4 py-2 text-foreground">{componentName(r.component_id)}</td>
+                    <td data-label="Value" className="px-4 py-2 font-medium text-foreground">
                       {r.result_value_numeric ?? r.result_value_text}
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{r.unit ?? "-"}</td>
-                    <td className="px-4 py-2">
+                    <td data-label="Unit" className="px-4 py-2 text-muted-foreground">{r.unit ?? "-"}</td>
+                    <td data-label="Flag" className="px-4 py-2">
                       <Badge tone={flagTone[r.flag ?? "normal"]}>{r.flag ?? "normal"}</Badge>
                     </td>
                   </tr>
@@ -229,7 +229,7 @@ export default async function ResultDetailPage({
           <CardContent className="space-y-3 text-sm">
             {verifications?.map((v, i) => (
               <div key={i} className="border-b border-border pb-3 last:border-0 last:pb-0">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="flex items-center gap-2">
                     <span className="font-medium capitalize text-foreground">{v.level}</span>
                     <Badge tone={verificationStatusTone[v.status] ?? "neutral"}>{v.status.replace(/_/g, " ")}</Badge>

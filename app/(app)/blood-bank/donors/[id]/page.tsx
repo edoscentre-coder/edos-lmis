@@ -85,8 +85,8 @@ export default async function DonorDetailPage({ params }: { params: Promise<{ id
         <CardHeader>
           <CardTitle>Donation History</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Unit</th>
@@ -104,11 +104,11 @@ export default async function DonorDetailPage({ params }: { params: Promise<{ id
               )}
               {units?.map((u) => (
                 <tr key={u.id} className="border-t border-border">
-                  <td className="px-4 py-2 font-medium text-foreground">{u.unit_number}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{u.component.replace(/_/g, " ")}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{u.collection_date}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{u.expiry_date}</td>
-                  <td className="px-4 py-2"><Badge tone="neutral">{u.status.replace(/_/g, " ")}</Badge></td>
+                  <td data-stack-head className="px-4 py-2 font-medium text-foreground">{u.unit_number}</td>
+                  <td data-label="Component" className="px-4 py-2 text-muted-foreground">{u.component.replace(/_/g, " ")}</td>
+                  <td data-label="Collected" className="px-4 py-2 text-muted-foreground">{u.collection_date}</td>
+                  <td data-label="Expiry" className="px-4 py-2 text-muted-foreground">{u.expiry_date}</td>
+                  <td data-label="Status" className="px-4 py-2"><Badge tone="neutral">{u.status.replace(/_/g, " ")}</Badge></td>
                 </tr>
               ))}
             </tbody>

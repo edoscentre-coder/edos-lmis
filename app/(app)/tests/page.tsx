@@ -15,7 +15,7 @@ export default async function TestsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Tests &amp; Panels</h1>
           <p className="text-sm text-muted-foreground">The lab&apos;s test menu — pricing, department, and turnaround</p>
@@ -38,7 +38,8 @@ export default async function TestsPage() {
         <CardHeader>
           <CardTitle>Tests</CardTitle>
         </CardHeader>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Test</th>
@@ -59,15 +60,15 @@ export default async function TestsPage() {
             )}
             {tests.map((t) => (
               <tr key={t.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <span className="font-medium text-foreground">{t.name}</span>{" "}
                   <span className="text-muted-foreground">({t.code})</span>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{t.department?.name ?? "-"}</td>
-                <td className="px-4 py-3 text-muted-foreground">{t.specimen_type?.name ?? "-"}</td>
-                <td className="px-4 py-3 text-foreground">{t.price.toFixed(2)}</td>
-                <td className="px-4 py-3 text-muted-foreground">{t.turnaround_time_hours ? `${t.turnaround_time_hours}h` : "-"}</td>
-                <td className="px-4 py-3">
+                <td data-label="Department" className="px-4 py-3 text-muted-foreground">{t.department?.name ?? "-"}</td>
+                <td data-label="Specimen" className="px-4 py-3 text-muted-foreground">{t.specimen_type?.name ?? "-"}</td>
+                <td data-label="Price" className="px-4 py-3 text-foreground">{t.price.toFixed(2)}</td>
+                <td data-label="TAT" className="px-4 py-3 text-muted-foreground">{t.turnaround_time_hours ? `${t.turnaround_time_hours}h` : "-"}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <ActiveToggle id={t.id} isActive={t.is_active} action={setTestActive} />
                 </td>
                 <td className="px-4 py-3">
@@ -84,13 +85,15 @@ export default async function TestsPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </Card>
 
       <Card className="overflow-hidden">
         <CardHeader>
           <CardTitle>Panels</CardTitle>
         </CardHeader>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Panel</th>
@@ -109,13 +112,13 @@ export default async function TestsPage() {
             )}
             {panels.map((p) => (
               <tr key={p.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <span className="font-medium text-foreground">{p.name}</span>{" "}
                   <span className="text-muted-foreground">({p.code})</span>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{p.test_count} tests</td>
-                <td className="px-4 py-3 text-foreground">{p.price.toFixed(2)}</td>
-                <td className="px-4 py-3">
+                <td data-label="Tests" className="px-4 py-3 text-muted-foreground">{p.test_count} tests</td>
+                <td data-label="Price" className="px-4 py-3 text-foreground">{p.price.toFixed(2)}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <ActiveToggle id={p.id} isActive={p.is_active} action={setPanelActive} />
                 </td>
                 <td className="px-4 py-3">
@@ -132,6 +135,7 @@ export default async function TestsPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </Card>
     </div>
   );

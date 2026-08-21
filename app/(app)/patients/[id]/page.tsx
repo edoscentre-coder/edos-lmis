@@ -83,8 +83,8 @@ export default async function PatientDetailPage({
           <CardHeader>
             <CardTitle>Order History</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <table className="w-full text-sm">
+          <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+            <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
               <thead className="bg-surface-muted text-left text-muted-foreground">
                 <tr>
                   <th className="px-4 py-2 font-medium">Order No.</th>
@@ -103,14 +103,14 @@ export default async function PatientDetailPage({
                 )}
                 {orders?.map((o) => (
                   <tr key={o.id} className="border-t border-border hover:bg-surface-muted">
-                    <td className="px-4 py-2">
+                    <td data-stack-head className="px-4 py-2">
                       <Link href={`/orders/${o.id}`} className="font-medium text-primary hover:underline">
                         {o.order_number}
                       </Link>
                     </td>
-                    <td className="px-4 py-2"><Badge tone="info">{o.status}</Badge></td>
-                    <td className="px-4 py-2 text-muted-foreground">{o.priority}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label="Status" className="px-4 py-2"><Badge tone="info">{o.status}</Badge></td>
+                    <td data-label="Priority" className="px-4 py-2 text-muted-foreground">{o.priority}</td>
+                    <td data-label="Date" className="px-4 py-2 text-muted-foreground">
                       {new Date(o.ordered_at).toLocaleString()}
                     </td>
                   </tr>

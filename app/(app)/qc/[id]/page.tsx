@@ -111,8 +111,8 @@ export default async function QcMaterialDetailPage({
         <CardHeader>
           <CardTitle>Run History</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Date</th>
@@ -133,14 +133,14 @@ export default async function QcMaterialDetailPage({
                 const instrument = r.edoslmis_equipment as unknown as { name: string; code: string } | null;
                 return (
                 <tr key={r.id} className="border-t border-border">
-                  <td className="px-4 py-2 text-muted-foreground">{new Date(r.run_at).toLocaleString()}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{instrument ? `${instrument.name}` : "-"}</td>
-                  <td className="px-4 py-2 font-medium text-foreground">{r.value}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{r.z_score?.toFixed(2) ?? "-"}</td>
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2 text-muted-foreground">{new Date(r.run_at).toLocaleString()}</td>
+                  <td data-label="Instrument" className="px-4 py-2 text-muted-foreground">{instrument ? `${instrument.name}` : "-"}</td>
+                  <td data-label="Value" className="px-4 py-2 font-medium text-foreground">{r.value}</td>
+                  <td data-label="Z-score" className="px-4 py-2 text-muted-foreground">{r.z_score?.toFixed(2) ?? "-"}</td>
+                  <td data-label="Status" className="px-4 py-2">
                     <Badge tone={statusTone[r.status] ?? "neutral"}>{r.status}</Badge>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">
+                  <td data-label="Rules Violated" className="px-4 py-2 text-muted-foreground">
                     {(r.violated_rules as string[] | null)?.length
                       ? (r.violated_rules as string[]).map((rule) => ruleLabels[rule] ?? rule).join(", ")
                       : "-"}

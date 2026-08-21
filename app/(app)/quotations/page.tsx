@@ -17,7 +17,7 @@ export default async function QuotationsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Quotations</h1>
           <p className="text-sm text-muted-foreground">Price quotations issued to customers</p>
@@ -27,8 +27,8 @@ export default async function QuotationsPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Quote Number</th>
@@ -52,16 +52,16 @@ export default async function QuotationsPage() {
             )}
             {quotations.map((q) => (
               <tr key={q.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <Link href={`/quotations/${q.id}`} className="font-medium text-primary hover:underline">
                     {q.quotation_number}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{q.customer_name ?? "General Quotation"}</td>
-                <td className="px-4 py-3 text-muted-foreground">{q.quote_date}</td>
-                <td className="px-4 py-3 text-muted-foreground">{q.valid_until ?? "-"}</td>
-                <td className="px-4 py-3 text-foreground">{q.total_amount.toFixed(2)}</td>
-                <td className="px-4 py-3">
+                <td data-label="Customer" className="px-4 py-3 text-muted-foreground">{q.customer_name ?? "General Quotation"}</td>
+                <td data-label="Date" className="px-4 py-3 text-muted-foreground">{q.quote_date}</td>
+                <td data-label="Valid Until" className="px-4 py-3 text-muted-foreground">{q.valid_until ?? "-"}</td>
+                <td data-label="Total" className="px-4 py-3 text-foreground">{q.total_amount.toFixed(2)}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <Badge tone={statusTone[q.status] ?? "neutral"}>{q.status}</Badge>
                 </td>
               </tr>

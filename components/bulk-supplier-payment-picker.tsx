@@ -73,7 +73,7 @@ export function BulkSupplierPaymentPicker({
   return (
     <div className="space-y-3">
       <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full text-sm">
+        <table className="stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-3 py-2">
@@ -94,7 +94,7 @@ export function BulkSupplierPaymentPicker({
           <tbody>
             {bills.map((bill) => (
               <tr key={bill.id} className="border-t border-border">
-                <td className="px-3 py-2">
+                <td data-stack-head className="px-3 py-2">
                   <input
                     type="checkbox"
                     checked={selected.has(bill.id)}
@@ -102,11 +102,11 @@ export function BulkSupplierPaymentPicker({
                     aria-label={`Select ${bill.bill_number}`}
                   />
                 </td>
-                <td className="px-3 py-2 font-medium text-foreground">{bill.bill_number}</td>
-                <td className="px-3 py-2 text-muted-foreground">{bill.bill_date}</td>
-                <td className="px-3 py-2 text-foreground">KES {bill.total_amount}</td>
-                <td className="px-3 py-2 font-medium text-critical">KES {bill.balance_due}</td>
-                <td className="px-3 py-2">
+                <td data-label="Bill" className="px-3 py-2 font-medium text-foreground">{bill.bill_number}</td>
+                <td data-label="Date" className="px-3 py-2 text-muted-foreground">{bill.bill_date}</td>
+                <td data-label="Total" className="px-3 py-2 text-foreground">KES {bill.total_amount}</td>
+                <td data-label="Balance Due" className="px-3 py-2 font-medium text-critical">KES {bill.balance_due}</td>
+                <td data-label="Status" className="px-3 py-2">
                   <Badge tone={bill.status === "partially_paid" ? "info" : "warning"}>
                     {bill.status.replace(/_/g, " ")}
                   </Badge>
@@ -130,8 +130,8 @@ export function BulkSupplierPaymentPicker({
             <input key={bill.id} type="hidden" name="bill_id" value={bill.id} />
           ))}
 
-          <div className="overflow-hidden rounded-lg border border-border">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-lg border border-border">
+            <table className="stack-table w-full min-w-[640px] text-sm">
               <thead className="bg-surface-muted text-left text-muted-foreground">
                 <tr>
                   <th className="px-3 py-2 font-medium">Bill</th>
@@ -142,9 +142,9 @@ export function BulkSupplierPaymentPicker({
               <tbody>
                 {selectedBills.map((bill) => (
                   <tr key={bill.id} className="border-t border-border">
-                    <td className="px-3 py-2 text-foreground">{bill.bill_number}</td>
-                    <td className="px-3 py-2 text-muted-foreground">KES {bill.balance_due}</td>
-                    <td className="px-3 py-2">
+                    <td data-stack-head className="px-3 py-2 text-foreground">{bill.bill_number}</td>
+                    <td data-label="Balance Due" className="px-3 py-2 text-muted-foreground">KES {bill.balance_due}</td>
+                    <td data-label="Amount to Pay" className="px-3 py-2">
                       <Input
                         name={`amount__${bill.id}`}
                         type="number"
@@ -153,7 +153,7 @@ export function BulkSupplierPaymentPicker({
                         max={bill.balance_due}
                         value={amountToPay(bill.id, bill.balance_due)}
                         onChange={(e) => setAmounts((prev) => ({ ...prev, [bill.id]: Number(e.target.value) || 0 }))}
-                        className="w-28"
+                        className="w-full sm:w-28"
                         required
                       />
                     </td>
@@ -172,7 +172,7 @@ export function BulkSupplierPaymentPicker({
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <Label htmlFor="payment_method">Method</Label>
               <Select id="payment_method" name="payment_method" defaultValue={paymentMethods[0]?.value ?? ""}>
                 {paymentMethods.map((m) => (
@@ -182,7 +182,7 @@ export function BulkSupplierPaymentPicker({
                 ))}
               </Select>
             </div>
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <Label htmlFor="reference_number">Reference No.</Label>
               <Input id="reference_number" name="reference_number" placeholder="Applies to all selected bills" />
             </div>

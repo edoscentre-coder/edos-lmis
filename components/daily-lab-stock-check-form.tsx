@@ -57,7 +57,7 @@ function DailyCheckTableRow({ row, date }: { row: DailyCheckRow; date: string })
 
   return (
     <tr className="border-t border-border">
-      <td className="px-3 py-2 font-medium text-foreground">
+      <td data-stack-head className="px-3 py-2 font-medium text-foreground">
         {row.name} <span className="text-muted-foreground">({row.code})</span>
         {row.trackingMode === "manual_entry" && (
           <Badge
@@ -69,16 +69,16 @@ function DailyCheckTableRow({ row, date }: { row: DailyCheckRow; date: string })
           </Badge>
         )}
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
+      <td data-label="Beginning Balance" className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
         {fmt(row.auto.beginningBalance)}
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
+      <td data-label="Qty Received (KEMSA)" className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
         {fmt(row.auto.qtyReceived)}
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
+      <td data-label="Qty Received (Other Sources)" className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
         {fmt(row.auto.qtyReceivedOtherSources)}
       </td>
-      <td className="px-3 py-2">
+      <td data-label="Quantity Used" className="px-3 py-2">
         <input type="hidden" name={`quantity_used_is_manual__${row.itemId}`} value={isManual ? "1" : "0"} />
         <div className="flex items-center gap-1">
           <Input
@@ -90,7 +90,7 @@ function DailyCheckTableRow({ row, date }: { row: DailyCheckRow; date: string })
               setQuantityUsed(Number(e.target.value) || 0);
               setIsManual(true);
             }}
-            className="w-24"
+            className="w-full md:w-24"
             title="Defaults to usage derived from the stock ledger — edit if the actual amount used differs. Expected Balance recalculates as you change this."
           />
           {isManual ? (
@@ -112,41 +112,42 @@ function DailyCheckTableRow({ row, date }: { row: DailyCheckRow; date: string })
           )}
         </div>
       </td>
-      <td className="px-3 py-2">
-        <Input name={`tests_done__${row.itemId}`} type="number" step="0.01" defaultValue={row.manual.testsDone} className="w-24" />
+      <td data-label="Tests Done" className="px-3 py-2">
+        <Input name={`tests_done__${row.itemId}`} type="number" step="0.01" defaultValue={row.manual.testsDone} className="w-full md:w-24" />
       </td>
-      <td className="px-3 py-2">
-        <Input name={`qaqc_repeats__${row.itemId}`} type="number" step="0.01" defaultValue={row.manual.qaqcRepeats} className="w-24" />
+      <td data-label="QAQC Repeats" className="px-3 py-2">
+        <Input name={`qaqc_repeats__${row.itemId}`} type="number" step="0.01" defaultValue={row.manual.qaqcRepeats} className="w-full md:w-24" />
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
+      <td data-label="Losses/Wastage" className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
         {fmt(row.auto.lossesWastage)}
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
+      <td data-label="Positive Adj." className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
         {fmt(row.auto.positiveAdjustments)}
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
+      <td data-label="Negative Adj." className="px-3 py-2 text-muted-foreground" title="Auto-derived from the stock ledger">
         {fmt(row.auto.negativeAdjustments)}
       </td>
-      <td className="px-3 py-2 text-muted-foreground" title="Auto-derived from active batch expiry dates">
+      <td data-label="Expiring <6mo" className="px-3 py-2 text-muted-foreground" title="Auto-derived from active batch expiry dates">
         {fmt(row.auto.expiringUnder6Months)}
       </td>
-      <td className="px-3 py-2">
-        <Input name={`stocked_out_qty__${row.itemId}`} type="number" step="0.01" defaultValue={row.manual.stockedOutQty} className="w-24" />
+      <td data-label="#Stocked Out" className="px-3 py-2">
+        <Input name={`stocked_out_qty__${row.itemId}`} type="number" step="0.01" defaultValue={row.manual.stockedOutQty} className="w-full md:w-24" />
       </td>
       <td
+        data-label="Expected Balance"
         className="px-3 py-2 text-muted-foreground"
         title="Beginning balance + receipts - quantity used - wastage + adjustments — what the system expects is on the shelf"
       >
         {fmt(expectedBalance)}
       </td>
-      <td className="px-3 py-2">
+      <td data-label="Physical Count" className="px-3 py-2">
         <Input
           name={`physical_count__${row.itemId}`}
           type="number"
           step="0.01"
           value={physicalCount}
           onChange={(e) => setPhysicalCount(Number(e.target.value) || 0)}
-          className={`w-24 ${hasDiscrepancy ? "border-critical text-critical" : ""}`}
+          className={`w-full md:w-24 ${hasDiscrepancy ? "border-critical text-critical" : ""}`}
           title="What was actually counted on the shelf — defaults to Expected Balance but enter the real count. Highlighted when it disagrees with Expected Balance."
         />
         {hasDiscrepancy && (
@@ -168,17 +169,17 @@ function DailyCheckTableRow({ row, date }: { row: DailyCheckRow; date: string })
           </>
         )}
       </td>
-      <td className="px-3 py-2">
+      <td data-label="Qty Required (Supply)" className="px-3 py-2">
         <Input
           name={`quantity_required_supply__${row.itemId}`}
           type="number"
           step="0.01"
           defaultValue={row.manual.quantityRequiredSupply}
-          className="w-24"
+          className="w-full md:w-24"
         />
       </td>
-      <td className="px-3 py-2">
-        <Input name={`notes__${row.itemId}`} defaultValue={row.manual.notes} className="w-40" />
+      <td data-label="Notes" className="px-3 py-2">
+        <Input name={`notes__${row.itemId}`} defaultValue={row.manual.notes} className="w-full md:w-40" />
       </td>
     </tr>
   );
@@ -194,8 +195,8 @@ export function DailyLabStockCheckForm({ date, rows }: { date: string; rows: Dai
         <input key={row.itemId} type="hidden" name="item_id" value={row.itemId} />
       ))}
 
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full min-w-[1800px] text-sm">
+      <div className="overflow-auto md:max-h-[70vh] md:rounded-lg md:border md:border-border">
+        <table className="stack-table sticky-head sticky-col w-full min-w-[1800px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-3 py-2 font-medium">Commodity</th>
@@ -231,8 +232,8 @@ export function DailyLabStockCheckForm({ date, rows }: { date: string; rows: Dai
         </table>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Button type="submit" disabled={pending || rows.length === 0}>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button type="submit" disabled={pending || rows.length === 0} className="w-full sm:w-auto">
           {pending ? "Saving..." : "Save Daily Check"}
         </Button>
         {state?.error && <p className="text-sm text-critical">{state.error}</p>}

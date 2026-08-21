@@ -59,6 +59,173 @@ body {
   color: var(--foreground);
 }
 
+/*
+ * Column headers that stay put while a long table is scrolled.
+ *
+ * Put `sticky-head` on the <table> and bound the height of its scroll
+ * container (e.g. `md:max-h-[70vh] overflow-auto`) — the header row then pins
+ * to the top of that box, so you can still tell which column you are reading
+ * a hundred rows into the daily stock check.
+ *
+ * It has to be the <thead> that sticks, not the <th> cells: Tailwind's
+ * preflight sets `border-collapse: collapse` on every table, and Chrome
+ * ignores `position: sticky` on individual cells of a collapsed-border table.
+ * Switching to `border-collapse: separate` would fix the cells but silently
+ * drop the `border-t` row separators these tables draw on their <tr>s.
+ *
+ * The child combinator matters: a table nested inside a stacked row must keep
+ * its own headers scrolling normally.
+ */
+.sticky-head > thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.sticky-head > thead > tr > th {
+  background: var(--surface-muted);
+  /* Drawn as an inset shadow because a collapsed border on a sticky cell is
+     painted with the row it came from and scrolls away with it. */
+  box-shadow: inset 0 -1px 0 var(--border);
+}
+
+/*
+ * Freezes the first column of a wide table while it is scrolled sideways, so
+ * a row stays identifiable once the commodity name would have scrolled off.
+ *
+ * Pair with `sticky-head` on the very wide sheets to pin both axes.
+ *
+ * A column has no row-group equivalent to hang `position: sticky` on, so this
+ * one really does have to stick individual cells — which forces
+ * `border-collapse: separate`, since Chrome ignores sticky cells in a
+ * collapsed-border table. Separate borders in turn ignore the `border-t` these
+ * tables set on their <tr>s, so the row separator is restated on the cells.
+ */
+.sticky-col {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.sticky-col > tbody > tr > td {
+  border-top: 1px solid var(--border);
+}
+
+/* `:not([colspan])` leaves full-width rows — empty states, expanded detail
+   panels — spanning the table instead of being frozen to the left edge. */
+.sticky-col > thead > tr > th:first-child,
+.sticky-col > tbody > tr > td:first-child:not([colspan]) {
+  position: sticky;
+  left: 0;
+  /* Opaque, or the columns being scrolled underneath show through. */
+  background: var(--surface);
+  box-shadow: inset -1px 0 0 var(--border);
+}
+
+.sticky-col > tbody > tr:hover > td:first-child:not([colspan]) {
+  background: var(--surface-muted);
+}
+
+/* Above the frozen column, and above the pinned header row it sits under. */
+.sticky-col > thead > tr > th:first-child {
+  z-index: 1;
+  background: var(--surface-muted);
+  box-shadow: inset -1px 0 0 var(--border), inset 0 -1px 0 var(--border);
+}
+
+.sticky-col > tbody > tr > td:first-child:not([colspan]) {
+  z-index: 1;
+}
+
+/*
+ * Wide data tables that stack into per-row cards on phones.
+ *
+ * Put `stack-table` on the <table> and `data-label="Column name"` on each
+ * <td>; below the `md` breakpoint the header row is dropped and every row
+ * becomes a bordered card with the column name printed beside its value. A
+ * 16-column reconciliation sheet like the daily lab stock check then reads
+ * top-to-bottom instead of forcing 1800px of sideways scrolling.
+ *
+ * Cells carrying `data-stack-head` become the card's title, cells marked
+ * `data-stack-hide` drop out of the stacked view (where a wide-screen-only
+ * affordance is offered some other way), and cells with no `data-label` at all
+ * (spacers, action buttons, colspan empty states) simply run the full width.
+ *
+ * Every rule uses child combinators so that a table nested inside a stacked
+ * row keeps rendering as an ordinary table.
+ *
+ * Rows keep a single set of form controls, so the values submitted are the
+ * same ones on every screen size — this deliberately reflows one table rather
+ * than rendering a separate mobile copy that would double up field names in
+ * the submitted FormData.
+ */
+@media (max-width: 767px) {
+  .stack-table {
+    display: block;
+    min-width: 0 !important;
+  }
+  .stack-table > thead {
+    display: none;
+  }
+  .stack-table > tbody {
+    display: block;
+  }
+  .stack-table > tbody > tr {
+    display: block;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--surface);
+  }
+  .stack-table > tbody > tr > td {
+    display: grid;
+    grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .stack-table > tbody > tr > td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--muted-foreground);
+  }
+  /* Keep the value column intact for cells holding more than one element —
+     an input plus its discrepancy note, say — which grid auto-placement would
+     otherwise spill back under the label. */
+  .stack-table > tbody > tr > td > * {
+    grid-column: 2;
+  }
+  .stack-table > tbody > tr > td:first-child,
+  .stack-table > tbody > tr > td[data-stack-head] {
+    border-top: 0;
+  }
+  .stack-table > tbody > tr > td[data-stack-head] {
+    display: block;
+    padding: 0.625rem 0 0.5rem;
+    font-weight: 600;
+  }
+  .stack-table > tbody > tr > td:not([data-label]) {
+    display: block;
+  }
+  .stack-table > tbody > tr > td[data-stack-hide] {
+    display: none;
+  }
+  /* Stacked cards have no columns to freeze, and a sticky cell here would
+     detach from its card. */
+  .stack-table.sticky-col > tbody > tr > td:first-child:not([colspan]) {
+    position: static;
+    background: none;
+    box-shadow: none;
+  }
+  .stack-table > tbody > tr > td[data-stack-head]::before,
+  .stack-table > tbody > tr > td:not([data-label])::before {
+    content: none;
+  }
+}
+
 @media print {
   .no-print {
     display: none !important;

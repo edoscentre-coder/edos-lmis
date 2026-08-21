@@ -60,7 +60,7 @@ export function EditPanelForm({ panel, tests }: { panel: PanelDetail; tests: Tes
       )}
 
       <div className="flex justify-end">
-        <Button type="submit" size="lg" disabled={pending}>
+        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={pending}>
           {pending ? "Saving..." : "Save Changes"}
         </Button>
       </div>

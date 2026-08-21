@@ -26,7 +26,7 @@ export function ReceivePoLineForm({
     <form action={formAction} className="flex flex-wrap items-end gap-2">
       <input type="hidden" name="po_id" value={poId} />
       <input type="hidden" name="line_id" value={lineId} />
-      <div>
+      <div className="min-w-0 flex-1 sm:flex-none">
         <Label htmlFor={`quantity-${lineId}`}>Quantity received</Label>
         <Input
           id={`quantity-${lineId}`}
@@ -36,21 +36,21 @@ export function ReceivePoLineForm({
           min="0"
           max={outstanding}
           placeholder={`up to ${outstanding} ${unitOfMeasure}`}
-          className="h-9 w-36"
+          className="h-9 w-full sm:w-36"
           required
         />
       </div>
-      <div>
+      <div className="min-w-0 flex-1 sm:flex-none">
         <Label htmlFor={`batch_number-${lineId}`}>Batch no. (optional)</Label>
-        <Input id={`batch_number-${lineId}`} name="batch_number" className="h-9 w-36" />
+        <Input id={`batch_number-${lineId}`} name="batch_number" className="h-9 w-full sm:w-36" />
       </div>
-      <div>
+      <div className="min-w-0 flex-1 sm:flex-none">
         <Label htmlFor={`expiry_date-${lineId}`}>Expiry date (optional)</Label>
         <Input
           id={`expiry_date-${lineId}`}
           name="expiry_date"
           type="date"
-          className="h-9 w-36"
+          className="h-9 w-full sm:w-36"
           title="The product's expiry date — leave blank if unknown. Only fill this in if you actually know when it expires; it drives the 'Expiring <6mo' figure on stock reports."
         />
       </div>

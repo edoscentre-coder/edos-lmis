@@ -249,7 +249,7 @@ export default async function DashboardPage({
             </Link>
             {(params.from || params.to) && <ClearFiltersButton href="/dashboard" />}
           </div>
-          <form className="flex items-end gap-2">
+          <form className="flex w-full flex-wrap items-end gap-2 sm:w-auto">
             <div>
               <Label htmlFor="from">From</Label>
               <Input id="from" name="from" type="date" defaultValue={from} max={today} />
@@ -329,7 +329,7 @@ export default async function DashboardPage({
                 } included (no single matching test).`}
             </p>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="stack-table w-full min-w-[640px] text-sm">
                 <thead className="bg-surface-muted text-left text-muted-foreground">
                   <tr>
                     <th className="px-4 py-2 font-medium">Category / Commodity</th>
@@ -352,13 +352,13 @@ export default async function DashboardPage({
                       </tr>
                       {bucket.lines.map((line) => (
                         <tr key={line.itemId} className="border-t border-border">
-                          <td className="px-4 py-2 pl-8 text-foreground">
+                          <td data-stack-head className="px-4 py-2 pl-8 text-foreground">
                             {line.itemName} <span className="text-muted-foreground">({line.itemCode})</span>
                           </td>
-                          <td className="px-4 py-2 text-muted-foreground">{line.testName}</td>
-                          <td className="px-4 py-2 text-right tabular-nums">{line.quantityUsed}</td>
-                          <td className="px-4 py-2 text-right tabular-nums">KES {line.unitPrice.toLocaleString()}</td>
-                          <td className="px-4 py-2 text-right font-medium tabular-nums">
+                          <td data-label="Test" className="px-4 py-2 text-muted-foreground">{line.testName}</td>
+                          <td data-label="Quantity Used" className="px-4 py-2 text-right tabular-nums">{line.quantityUsed}</td>
+                          <td data-label="Unit Price" className="px-4 py-2 text-right tabular-nums">KES {line.unitPrice.toLocaleString()}</td>
+                          <td data-label="Est. Revenue" className="px-4 py-2 text-right font-medium tabular-nums">
                             KES {line.amount.toLocaleString()}
                           </td>
                         </tr>
@@ -382,7 +382,7 @@ export default async function DashboardPage({
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
           <CardTitle>{t.roadmapTitle}</CardTitle>
           <Badge tone="neutral">Roadmap</Badge>
         </CardHeader>

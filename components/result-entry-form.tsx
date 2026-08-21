@@ -61,7 +61,8 @@ export function ResultEntryForm({
         <CardHeader>
           <CardTitle>Enter Results</CardTitle>
         </CardHeader>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto p-2 md:p-0">
+        <table className="stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-2 font-medium">Parameter</th>
@@ -75,8 +76,8 @@ export function ResultEntryForm({
               const fieldId = `value_${comp.id ?? "main"}`;
               return (
                 <tr key={comp.id ?? "main"} className="border-t border-border">
-                  <td className="px-4 py-2 font-medium text-foreground">{comp.name}</td>
-                  <td className="px-4 py-2">
+                  <td data-stack-head className="px-4 py-2 font-medium text-foreground">{comp.name}</td>
+                  <td data-label="Result" className="px-4 py-2">
                     {comp.dataType === "select" ? (
                       <Select id={fieldId} name={fieldId} defaultValue="" className="h-9">
                         <option value="" disabled>
@@ -99,13 +100,14 @@ export function ResultEntryForm({
                       />
                     )}
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground">{comp.unit ?? "-"}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{comp.rangeLabel ?? "-"}</td>
+                  <td data-label="Unit" className="px-4 py-2 text-muted-foreground">{comp.unit ?? "-"}</td>
+                  <td data-label="Reference Range" className="px-4 py-2 text-muted-foreground">{comp.rangeLabel ?? "-"}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        </div>
       </Card>
       {error && <p className="mt-2 text-sm text-critical">{error}</p>}
       <div className="mt-4 flex justify-end">

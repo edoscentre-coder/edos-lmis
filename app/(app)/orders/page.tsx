@@ -31,7 +31,7 @@ export default async function OrdersPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">{t.title}</h1>
           <p className="text-sm text-muted-foreground">{t.subtitle}</p>
@@ -43,8 +43,8 @@ export default async function OrdersPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">{t.colOrderNo}</th>
@@ -74,24 +74,24 @@ export default async function OrdersPage() {
               } | null;
               return (
                 <tr key={o.id} className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-4 py-3">
+                  <td data-stack-head className="px-4 py-3">
                     <Link href={`/orders/${o.id}`} className="font-medium text-primary hover:underline">
                       {o.order_number}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-foreground">
+                  <td data-label={t.colPatient} className="px-4 py-3 text-foreground">
                     {patient ? `${patient.first_name} ${patient.last_name}` : "-"}
                     <span className="ml-1 text-muted-foreground">({patient?.patient_number})</span>
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label={t.colPriority} className="px-4 py-3">
                     <Badge tone={o.priority === "stat" ? "critical" : o.priority === "urgent" ? "warning" : "neutral"}>
                       {o.priority}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label={t.colStatus} className="px-4 py-3">
                     <Badge tone={statusTone[o.status] ?? "neutral"}>{o.status}</Badge>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td data-label={t.colDate} className="px-4 py-3 text-muted-foreground">
                     {new Date(o.ordered_at).toLocaleString()}
                   </td>
                   <td className="px-4 py-3">

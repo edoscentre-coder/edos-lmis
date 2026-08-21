@@ -26,7 +26,7 @@ export default async function DepartmentsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Departments</h1>
           <p className="text-sm text-muted-foreground">Laboratory sections and their test menus</p>
@@ -43,7 +43,7 @@ export default async function DepartmentsPage() {
           const testCount = (d.edoslmis_tests as unknown as { count: number }[] | null)?.[0]?.count ?? 0;
           return (
             <Card key={d.id}>
-              <CardHeader className="flex flex-row items-center justify-between">
+              <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
                 <CardTitle>{d.name}</CardTitle>
                 <Badge tone="neutral">{d.code}</Badge>
               </CardHeader>

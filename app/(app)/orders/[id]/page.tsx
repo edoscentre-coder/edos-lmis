@@ -118,8 +118,8 @@ export default async function OrderDetailPage({
         <CardHeader>
           <CardTitle>Requested Tests</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Test</th>
@@ -133,12 +133,12 @@ export default async function OrderDetailPage({
                 const test = ot.edoslmis_tests as unknown as { name: string; code: string } | null;
                 return (
                   <tr key={ot.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-foreground">{test?.name}</td>
-                    <td className="px-4 py-2 text-muted-foreground">KES {ot.price}</td>
-                    <td className="px-4 py-2">
+                    <td data-stack-head className="px-4 py-2 text-foreground">{test?.name}</td>
+                    <td data-label="Price" className="px-4 py-2 text-muted-foreground">KES {ot.price}</td>
+                    <td data-label="Status" className="px-4 py-2">
                       <Badge tone={otStatusTone[ot.status] ?? "neutral"}>{ot.status}</Badge>
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label="Action" className="px-4 py-2">
                       {["received", "in_analysis"].includes(ot.status) && (
                         <Link href={`/results/${ot.id}`} className="text-primary hover:underline">
                           Enter Result

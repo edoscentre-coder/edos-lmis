@@ -69,9 +69,9 @@ export function MicrobiologyCatalogManager({
               )}
             </tbody>
           </table>
-          <form action={organismAction} className="flex items-end gap-2">
-            <Input name="name" placeholder="Organism name" required className="flex-1" />
-            <Select name="gram_stain" defaultValue="not_applicable" className="w-40">
+          <form action={organismAction} className="flex flex-wrap items-end gap-2">
+            <Input name="name" placeholder="Organism name" required className="w-full min-w-0 sm:w-auto sm:flex-1" />
+            <Select name="gram_stain" defaultValue="not_applicable" className="w-full sm:w-40">
               {Object.entries(GRAM_STAIN_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
@@ -105,9 +105,9 @@ export function MicrobiologyCatalogManager({
               )}
             </tbody>
           </table>
-          <form action={antibioticAction} className="flex items-end gap-2">
-            <Input name="name" placeholder="Antibiotic name" required className="flex-1" />
-            <Input name="antibiotic_class" placeholder="Class (optional)" className="w-40" />
+          <form action={antibioticAction} className="flex flex-wrap items-end gap-2">
+            <Input name="name" placeholder="Antibiotic name" required className="w-full min-w-0 sm:w-auto sm:flex-1" />
+            <Input name="antibiotic_class" placeholder="Class (optional)" className="w-full sm:w-40" />
             <Button type="submit" variant="outline" disabled={antibioticPending}>
               {antibioticPending ? "Adding..." : "Add"}
             </Button>

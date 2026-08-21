@@ -39,23 +39,23 @@ export function EditableBatchRow({ batch, itemId, unitOfMeasure }: { batch: Batc
           <form action={formAction} className="flex flex-wrap items-end gap-2">
             <input type="hidden" name="batch_id" value={batch.id} />
             <input type="hidden" name="item_id" value={itemId} />
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <label className="mb-1 block text-xs text-muted-foreground">Batch no.</label>
-              <Input name="batch_number" defaultValue={batch.batchNumber} className="h-9 w-32" required />
+              <Input name="batch_number" defaultValue={batch.batchNumber} className="h-9 w-full sm:w-32" required />
             </div>
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <label className="mb-1 block text-xs text-muted-foreground">Supplier</label>
-              <Input name="supplier_name" defaultValue={batch.supplierName ?? ""} className="h-9 w-36" />
+              <Input name="supplier_name" defaultValue={batch.supplierName ?? ""} className="h-9 w-full sm:w-36" />
             </div>
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <label className="mb-1 block text-xs text-muted-foreground">Expiry date</label>
-              <Input name="expiry_date" type="date" defaultValue={batch.expiryDate ?? ""} className="h-9 w-36" />
+              <Input name="expiry_date" type="date" defaultValue={batch.expiryDate ?? ""} className="h-9 w-full sm:w-36" />
             </div>
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <label className="mb-1 block text-xs text-muted-foreground">Unit cost</label>
-              <Input name="unit_cost" type="number" step="0.01" min="0" defaultValue={batch.unitCost ?? ""} className="h-9 w-24" />
+              <Input name="unit_cost" type="number" step="0.01" min="0" defaultValue={batch.unitCost ?? ""} className="h-9 w-full sm:w-24" />
             </div>
-            <div>
+            <div className="min-w-0 flex-1 sm:flex-none">
               <label className="mb-1 block text-xs text-muted-foreground">Qty remaining</label>
               <Input
                 name="quantity_remaining"
@@ -63,7 +63,7 @@ export function EditableBatchRow({ batch, itemId, unitOfMeasure }: { batch: Batc
                 step="0.01"
                 min="0"
                 defaultValue={batch.quantityRemaining}
-                className="h-9 w-24"
+                className="h-9 w-full sm:w-24"
                 required
               />
             </div>
@@ -82,9 +82,9 @@ export function EditableBatchRow({ batch, itemId, unitOfMeasure }: { batch: Batc
 
   return (
     <tr className={`border-t border-border ${batch.isActive ? "" : "opacity-50"}`}>
-      <td className="px-4 py-2 font-medium text-foreground">{batch.batchNumber}</td>
-      <td className="px-4 py-2 text-muted-foreground">{batch.supplierName ?? "-"}</td>
-      <td className="px-4 py-2">
+      <td data-stack-head className="px-4 py-2 font-medium text-foreground">{batch.batchNumber}</td>
+      <td data-label="Supplier" className="px-4 py-2 text-muted-foreground">{batch.supplierName ?? "-"}</td>
+      <td data-label="Expiry Date" className="px-4 py-2">
         {batch.expiryDate ?? "-"}
         {batch.isActive && isExpiringSoon(batch.expiryDate) && (
           <Badge tone="warning" className="ml-2">
@@ -92,11 +92,11 @@ export function EditableBatchRow({ batch, itemId, unitOfMeasure }: { batch: Batc
           </Badge>
         )}
       </td>
-      <td className="px-4 py-2 text-muted-foreground">
+      <td data-label="Qty Remaining / Received" className="px-4 py-2 text-muted-foreground">
         {batch.quantityRemaining} / {batch.quantityReceived} {unitOfMeasure}
       </td>
-      <td className="px-4 py-2 text-muted-foreground">{batch.unitCost ?? "-"}</td>
-      <td className="px-4 py-2">
+      <td data-label="Unit Cost" className="px-4 py-2 text-muted-foreground">{batch.unitCost ?? "-"}</td>
+      <td data-label="Status" className="px-4 py-2">
         <Badge tone={batch.isActive ? "success" : "neutral"}>{batch.isActive ? "Active" : "Inactive"}</Badge>
       </td>
       <td className="px-4 py-2 text-right">

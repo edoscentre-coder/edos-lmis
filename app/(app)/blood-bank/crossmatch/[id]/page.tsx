@@ -122,7 +122,7 @@ export default async function CrossmatchDetailPage({
             const transfusion = transfusionByResult.get(r.id);
             return (
               <div key={r.id} className="rounded-lg border border-border p-3 space-y-2">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <p className="text-sm font-medium text-foreground">
                     {unit?.unit_number} &middot; {unit ? BLOOD_GROUP_LABELS[unit.blood_group] : ""} &middot; {r.method}
                   </p>
@@ -141,7 +141,7 @@ export default async function CrossmatchDetailPage({
 
                 {transfusion && (
                   <div className="space-y-2 rounded-lg bg-surface-muted p-3">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
                       <p className="text-sm text-foreground">
                         Issued to {transfusion.ward_location ?? "ward"} at {new Date(transfusion.issued_at).toLocaleString()}
                       </p>

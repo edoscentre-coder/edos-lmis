@@ -39,8 +39,8 @@ export default async function SpecimensPage() {
         <CardHeader>
           <CardTitle>{t.awaitingReception} ({awaitingReception?.length ?? 0})</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">{t.colSpecimenNo}</th>
@@ -68,20 +68,20 @@ export default async function SpecimensPage() {
                 const specimenType = s.edoslmis_specimen_types as unknown as { name: string } | null;
                 return (
                   <tr key={s.id} className="border-t border-border">
-                    <td className="px-4 py-2">
+                    <td data-stack-head className="px-4 py-2">
                       <Link href={`/specimens/${s.id}/label`} className="font-medium text-primary hover:underline">
                         {s.specimen_number}
                       </Link>
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{order?.order_number}</td>
-                    <td className="px-4 py-2 text-foreground">
+                    <td data-label={t.colOrder} className="px-4 py-2 text-muted-foreground">{order?.order_number}</td>
+                    <td data-label={t.colPatient} className="px-4 py-2 text-foreground">
                       {patient ? `${patient.first_name} ${patient.last_name}` : "-"}
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">{specimenType?.name ?? "-"}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label={t.colType} className="px-4 py-2 text-muted-foreground">{specimenType?.name ?? "-"}</td>
+                    <td data-label={t.colCollected} className="px-4 py-2 text-muted-foreground">
                       {s.collected_at ? new Date(s.collected_at).toLocaleTimeString() : "-"}
                     </td>
-                    <td className="px-4 py-2">
+                    <td data-label={t.colAction} className="px-4 py-2">
                       <SpecimenActions specimenId={s.id} />
                     </td>
                   </tr>

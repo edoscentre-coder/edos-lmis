@@ -38,8 +38,8 @@ export default async function TenantsPage() {
         <CardHeader>
           <CardTitle>Tenants</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-3 font-medium">Name</th>
@@ -59,19 +59,19 @@ export default async function TenantsPage() {
               )}
               {tenants.map((t) => (
                 <tr key={t.id} className="border-t border-border">
-                  <td className="px-4 py-3 font-medium text-foreground">
+                  <td data-stack-head className="px-4 py-3 font-medium text-foreground">
                     <Link href={`/admin/tenants/${t.id}`} className="hover:underline">
                       {t.name}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">{t.code}</td>
-                  <td className="px-4 py-3">
+                  <td data-label="Code" className="px-4 py-3 text-muted-foreground">{t.code}</td>
+                  <td data-label="Status" className="px-4 py-3">
                     <TenantActiveToggle tenantId={t.id} isActive={!t.deleted_at} />
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td data-label="LMIS settings" className="px-4 py-3 text-muted-foreground">
                     {t.settings_updated_at ? "Configured" : "Not configured yet"}
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">{new Date(t.created_at).toLocaleString()}</td>
+                  <td data-label="Created" className="px-4 py-3 text-muted-foreground">{new Date(t.created_at).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>

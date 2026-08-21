@@ -57,7 +57,7 @@ export function SupplierInvoiceNumberForm({
           name="supplier_invoice_number"
           defaultValue={initialValue ?? ""}
           placeholder="e.g. INV-4821"
-          className="h-9 w-48"
+          className="h-9 w-full sm:w-48"
           autoFocus={!!initialValue}
         />
       </div>

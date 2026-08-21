@@ -30,8 +30,8 @@ export default async function BillingPage() {
         <p className="text-sm text-muted-foreground">Invoices, payments, and insurance claims</p>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Invoice</th>
@@ -60,24 +60,24 @@ export default async function BillingPage() {
               } | null;
               return (
                 <tr key={inv.id} className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-4 py-3">
+                  <td data-stack-head className="px-4 py-3">
                     <Link href={`/billing/${inv.id}`} className="font-medium text-primary hover:underline">
                       {inv.invoice_number}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td data-label="Patient" className="px-4 py-3 text-muted-foreground">
                     {patient ? `${patient.first_name} ${patient.last_name} (${patient.patient_number})` : "-"}
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label="Payer" className="px-4 py-3">
                     <Badge tone="neutral">{inv.payer_type.replace(/_/g, " ")}</Badge>
                   </td>
-                  <td className="px-4 py-3 text-foreground">KES {inv.total_amount}</td>
-                  <td className="px-4 py-3">
+                  <td data-label="Total" className="px-4 py-3 text-foreground">KES {inv.total_amount}</td>
+                  <td data-label="Balance Due" className="px-4 py-3">
                     <span className={inv.balance_due > 0 ? "font-medium text-critical" : "text-muted-foreground"}>
                       KES {inv.balance_due}
                     </span>
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label="Status" className="px-4 py-3">
                     <Badge tone={statusTone[inv.status] ?? "neutral"}>{inv.status.replace(/_/g, " ")}</Badge>
                   </td>
                   <td className="px-4 py-3 text-right">

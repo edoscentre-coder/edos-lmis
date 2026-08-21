@@ -100,7 +100,7 @@ export function HistopathologyWorkup({
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
           <CardTitle>{histoCase.specimen_type.replace(/_/g, " ")} &middot; {histoCase.number_of_pieces} piece(s)</CardTitle>
           <Badge tone={statusTone[histoCase.status] ?? "neutral"}>{histoCase.status}</Badge>
         </CardHeader>

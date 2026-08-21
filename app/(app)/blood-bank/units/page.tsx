@@ -26,7 +26,7 @@ export default async function BloodUnitsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Blood Units</h1>
           <p className="text-sm text-muted-foreground">Unit inventory and screening status</p>
@@ -36,8 +36,8 @@ export default async function BloodUnitsPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Unit</th>
@@ -62,17 +62,17 @@ export default async function BloodUnitsPage() {
             )}
             {units?.map((u) => (
               <tr key={u.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3 font-medium text-foreground">{u.unit_number}</td>
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3 font-medium text-foreground">{u.unit_number}</td>
+                <td data-label="Group" className="px-4 py-3">
                   <Badge tone="neutral">{BLOOD_GROUP_LABELS[u.blood_group] ?? u.blood_group}</Badge>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{u.component.replace(/_/g, " ")}</td>
-                <td className="px-4 py-3 text-muted-foreground">{u.volume_ml} mL</td>
-                <td className="px-4 py-3 text-muted-foreground">{u.expiry_date}</td>
-                <td className="px-4 py-3">
+                <td data-label="Component" className="px-4 py-3 text-muted-foreground">{u.component.replace(/_/g, " ")}</td>
+                <td data-label="Volume" className="px-4 py-3 text-muted-foreground">{u.volume_ml} mL</td>
+                <td data-label="Expiry" className="px-4 py-3 text-muted-foreground">{u.expiry_date}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <Badge tone={statusTone[u.status] ?? "neutral"}>{u.status}</Badge>
                 </td>
-                <td className="px-4 py-3">
+                <td data-label="Action" className="px-4 py-3">
                   {u.status === "quarantine" && <ReleaseQuarantineButton unitId={u.id} />}
                 </td>
               </tr>

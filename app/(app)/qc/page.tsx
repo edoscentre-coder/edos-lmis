@@ -41,7 +41,7 @@ export default async function QcPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Quality Control</h1>
           <p className="text-sm text-muted-foreground">Control lots and Westgard multirule evaluation</p>
@@ -53,8 +53,8 @@ export default async function QcPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Test</th>
@@ -80,18 +80,18 @@ export default async function QcPage() {
               const latest = latestByMaterial.get(m.id);
               return (
                 <tr key={m.id} className="border-t border-border hover:bg-surface-muted">
-                  <td className="px-4 py-3">
+                  <td data-stack-head className="px-4 py-3">
                     {!m.is_active && <Badge tone="neutral">Inactive</Badge>}{" "}
                     <Link href={`/qc/${m.id}`} className="font-medium text-primary hover:underline">
                       {test?.name}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">{levelLabel[m.level] ?? m.level}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{m.lot_number}</td>
-                  <td className="px-4 py-3 text-muted-foreground">
+                  <td data-label="Level" className="px-4 py-3 text-muted-foreground">{levelLabel[m.level] ?? m.level}</td>
+                  <td data-label="Lot" className="px-4 py-3 text-muted-foreground">{m.lot_number}</td>
+                  <td data-label="Target (Mean ± SD)" className="px-4 py-3 text-muted-foreground">
                     {m.target_mean} ± {m.target_sd} {m.unit ?? ""}
                   </td>
-                  <td className="px-4 py-3">
+                  <td data-label="Last Run" className="px-4 py-3">
                     {latest ? (
                       <span className="flex items-center gap-2">
                         <Badge tone={statusTone[latest.status] ?? "neutral"}>{latest.status}</Badge>

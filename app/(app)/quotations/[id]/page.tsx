@@ -76,8 +76,8 @@ export default async function QuotationDetailPage({ params }: { params: Promise<
         <CardHeader>
           <CardTitle>Line Items</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Description</th>
@@ -89,10 +89,10 @@ export default async function QuotationDetailPage({ params }: { params: Promise<
             <tbody>
               {quotation.items.map((item) => (
                 <tr key={item.id} className="border-t border-border">
-                  <td className="px-4 py-2 text-foreground">{item.description}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{item.quantity} {item.unit_of_measure}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{item.unit_price}</td>
-                  <td className="px-4 py-2 text-foreground">{item.total_amount}</td>
+                  <td data-stack-head className="px-4 py-2 text-foreground">{item.description}</td>
+                  <td data-label="Qty" className="px-4 py-2 text-muted-foreground">{item.quantity} {item.unit_of_measure}</td>
+                  <td data-label="Unit Price" className="px-4 py-2 text-muted-foreground">{item.unit_price}</td>
+                  <td data-label="Amount" className="px-4 py-2 text-foreground">{item.total_amount}</td>
                 </tr>
               ))}
             </tbody>

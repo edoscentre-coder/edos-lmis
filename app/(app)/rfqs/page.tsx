@@ -17,7 +17,7 @@ export default async function RfqsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-foreground">Requests for Quotation</h1>
           <p className="text-sm text-muted-foreground">Ask suppliers for pricing before raising a purchase order</p>
@@ -27,8 +27,8 @@ export default async function RfqsPage() {
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+      <Card className="overflow-auto md:max-h-[70vh]">
+        <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
           <thead className="bg-surface-muted text-left text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">RFQ Number</th>
@@ -50,14 +50,14 @@ export default async function RfqsPage() {
             )}
             {rfqs.map((rfq) => (
               <tr key={rfq.id} className="border-t border-border hover:bg-surface-muted">
-                <td className="px-4 py-3">
+                <td data-stack-head className="px-4 py-3">
                   <Link href={`/rfqs/${rfq.id}`} className="font-medium text-primary hover:underline">
                     {rfq.rfq_number}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{rfq.supplier_count}</td>
-                <td className="px-4 py-3 text-muted-foreground">{rfq.expected_date ?? "-"}</td>
-                <td className="px-4 py-3">
+                <td data-label="Suppliers" className="px-4 py-3 text-muted-foreground">{rfq.supplier_count}</td>
+                <td data-label="Needed by" className="px-4 py-3 text-muted-foreground">{rfq.expected_date ?? "-"}</td>
+                <td data-label="Status" className="px-4 py-3">
                   <Badge tone={statusTone[rfq.status] ?? "neutral"}>{rfq.status.replace(/_/g, " ")}</Badge>
                 </td>
               </tr>

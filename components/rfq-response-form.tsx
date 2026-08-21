@@ -46,7 +46,7 @@ export function RfqResponseForm({
     <form action={formAction} className="flex flex-wrap items-center gap-2">
       <input type="hidden" name="rfq_id" value={rfqId} />
       <input type="hidden" name="rfq_supplier_id" value={rfqSupplierId} />
-      <Input name="quoted_total" type="number" step="0.01" min="0" placeholder="Quoted total" className="h-9 w-32" />
+      <Input name="quoted_total" type="number" step="0.01" min="0" placeholder="Quoted total" className="h-9 w-full sm:w-32" />
       <Button type="submit" size="sm" variant="secondary" disabled={pending}>
         {pending ? "Saving..." : "Record Quote"}
       </Button>

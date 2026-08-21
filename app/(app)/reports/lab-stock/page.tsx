@@ -98,8 +98,10 @@ export default async function LabStockReportPage({
             check.
           </p>
         </div>
-        <Link href="/inventory/daily-check">
-          <Button variant="secondary">Record Today&apos;s Check</Button>
+        <Link href="/inventory/daily-check" className="w-full sm:w-auto">
+          <Button variant="secondary" className="w-full sm:w-auto">
+            Record Today&apos;s Check
+          </Button>
         </Link>
       </div>
 
@@ -122,16 +124,16 @@ export default async function LabStockReportPage({
           </Link>
           {(params.from || params.to || params.department) && <ClearFiltersButton href="/reports/lab-stock" />}
         </div>
-        <form className="flex flex-wrap items-end gap-2">
-          <div>
+        <form className="flex w-full flex-wrap items-end gap-2 lg:w-auto">
+          <div className="min-w-0 flex-1 sm:flex-none">
             <Label htmlFor="from">From</Label>
             <Input id="from" name="from" type="date" defaultValue={from} max={today} />
           </div>
-          <div>
+          <div className="min-w-0 flex-1 sm:flex-none">
             <Label htmlFor="to">To</Label>
             <Input id="to" name="to" type="date" defaultValue={to} max={today} />
           </div>
-          <div>
+          <div className="min-w-0 flex-1 sm:w-56 sm:flex-none">
             <Label htmlFor="department">Department</Label>
             <Select id="department" name="department" defaultValue={departmentId ?? ""}>
               <option value="">All departments</option>

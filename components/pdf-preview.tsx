@@ -9,8 +9,8 @@ export function PdfPreview({ src, title }: { src: string; title: string }) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
-      <div className="no-print flex items-center justify-between border-b border-border px-4 py-2">
-        <p className="text-sm font-medium text-foreground">{title}</p>
+      <div className="no-print flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2">
+        <p className="min-w-0 text-sm font-medium text-foreground">{title}</p>
         <div className="flex items-center gap-2">
           <Button
             variant="secondary"

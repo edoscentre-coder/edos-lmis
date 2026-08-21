@@ -95,7 +95,7 @@ export function CultureWorkup({
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
           <CardTitle>Culture — {culture.culture_type.replace(/_/g, " ")}</CardTitle>
           <Badge tone={culture.status === "finalized" ? "success" : "info"}>{culture.status.replace(/_/g, " ")}</Badge>
         </CardHeader>

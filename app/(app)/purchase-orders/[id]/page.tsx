@@ -145,8 +145,8 @@ export default async function PurchaseOrderDetailPage({ params }: { params: Prom
         <CardHeader>
           <CardTitle>Line items</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-auto p-0 md:max-h-[70vh]">
+          <table className="sticky-head stack-table w-full min-w-[640px] text-sm">
             <thead className="bg-surface-muted text-left text-muted-foreground">
               <tr>
                 <th className="px-4 py-2 font-medium">Commodity</th>
@@ -161,21 +161,21 @@ export default async function PurchaseOrderDetailPage({ params }: { params: Prom
                 const outstanding = line.quantity_ordered - line.quantity_received;
                 return (
                   <tr key={line.id} className="border-t border-border align-top">
-                    <td className="px-4 py-2">
+                    <td data-stack-head className="px-4 py-2">
                       <span className="font-medium text-foreground">{line.item?.name ?? "Unknown item"}</span>{" "}
                       <span className="text-muted-foreground">({line.item?.code})</span>
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label="Ordered" className="px-4 py-2 text-muted-foreground">
                       {line.quantity_ordered} {line.item?.unit_of_measure}
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label="Received" className="px-4 py-2 text-muted-foreground">
                       {line.quantity_received} {line.item?.unit_of_measure}
                     </td>
-                    <td className="px-4 py-2 text-muted-foreground">
+                    <td data-label="Unit cost" className="px-4 py-2 text-muted-foreground">
                       {line.unit_cost !== null ? `KES ${line.unit_cost}` : "-"}
                     </td>
                     {canReceive && (
-                      <td className="px-4 py-2">
+                      <td data-label="Receive" className="px-4 py-2">
                         <ReceivePoLineForm
                           poId={po.id}
                           lineId={line.id}
