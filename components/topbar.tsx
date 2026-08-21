@@ -10,15 +10,17 @@ export function Topbar({
   branchLabel,
   locale,
   isPlatformAdmin = false,
+  appLogoUrl = null,
 }: {
   staffName: string;
   branchLabel: string;
   locale: Locale;
   isPlatformAdmin?: boolean;
+  appLogoUrl?: string | null;
 }) {
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border bg-surface px-3 sm:gap-4 sm:px-4 lg:px-6">
-      <MobileNav locale={locale} isPlatformAdmin={isPlatformAdmin} />
+      <MobileNav locale={locale} isPlatformAdmin={isPlatformAdmin} appLogoUrl={appLogoUrl} />
 
       <div className="flex min-w-0 flex-1 items-center gap-2 max-w-md">
         <div className="relative w-full">

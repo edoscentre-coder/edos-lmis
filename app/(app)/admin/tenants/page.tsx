@@ -4,6 +4,8 @@ import { listTenants } from "@/lib/data/tenant-admin";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreateTenantForm } from "@/components/create-tenant-form";
 import { TenantActiveToggle } from "@/components/tenant-active-toggle";
+import { PlatformBrandingForm } from "@/components/platform-branding-form";
+import { getPlatformBranding } from "@/lib/data/platform-branding";
 
 export default async function TenantsPage() {
   const staff = await getCurrentStaff();
@@ -19,7 +21,10 @@ export default async function TenantsPage() {
     );
   }
 
-  const { data: tenants, error } = await listTenants();
+  const [{ data: tenants, error }, { appLogoUrl }] = await Promise.all([
+    listTenants(),
+    getPlatformBranding(),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -29,6 +34,8 @@ export default async function TenantsPage() {
           Create tenants and manage any tenant&apos;s clinic info, branding, and document settings
         </p>
       </div>
+
+      <PlatformBrandingForm appLogoUrl={appLogoUrl} />
 
       <CreateTenantForm />
 

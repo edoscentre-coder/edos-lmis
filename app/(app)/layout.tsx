@@ -4,14 +4,16 @@ import { OfflineIndicator } from "@/components/offline-indicator";
 import { BackButton } from "@/components/back-button";
 import { getCurrentStaff } from "@/lib/auth";
 import { getLocale } from "@/lib/i18n/get-locale";
+import { getPlatformBranding } from "@/lib/data/platform-branding";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const staff = await getCurrentStaff();
   const locale = await getLocale();
+  const { appLogoUrl } = await getPlatformBranding();
 
   return (
     <div className="flex h-dvh overflow-hidden bg-background">
-      <Sidebar locale={locale} isPlatformAdmin={staff.isPlatformAdmin} />
+      <Sidebar locale={locale} isPlatformAdmin={staff.isPlatformAdmin} appLogoUrl={appLogoUrl} />
       {/* min-w-0 is what keeps a wide table inside its own scroll container:
           without it this flex child refuses to shrink below its content width
           and the whole page scrolls sideways instead. */}
@@ -21,6 +23,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           branchLabel={staff.branchName ?? ""}
           locale={locale}
           isPlatformAdmin={staff.isPlatformAdmin}
+          appLogoUrl={appLogoUrl}
         />
         <OfflineIndicator />
         <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 lg:p-6">

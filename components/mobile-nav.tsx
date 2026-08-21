@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, FlaskConical } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { SidebarNav } from "@/components/sidebar-nav";
+import { AppLogo } from "@/components/app-logo";
 import type { Locale } from "@/lib/i18n/dictionaries";
 
 /**
@@ -14,9 +15,11 @@ import type { Locale } from "@/lib/i18n/dictionaries";
 export function MobileNav({
   locale = "en",
   isPlatformAdmin = false,
+  appLogoUrl = null,
 }: {
   locale?: Locale;
   isPlatformAdmin?: boolean;
+  appLogoUrl?: string | null;
 }) {
   const pathname = usePathname();
   // Remembering which route the drawer was opened on — rather than a plain
@@ -68,9 +71,7 @@ export function MobileNav({
             className="relative flex h-full w-[17rem] max-w-[85vw] flex-col border-r border-border bg-surface shadow-xl"
           >
             <div className="flex h-16 shrink-0 items-center gap-2 border-b border-border px-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <FlaskConical size={18} />
-              </div>
+              <AppLogo src={appLogoUrl} />
               <span className="flex-1 font-semibold text-foreground">EDOS LMIS</span>
               <button
                 type="button"
