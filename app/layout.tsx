@@ -1,9 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { SwUpdateBanner } from "@/components/sw-update-banner";
 
 export const metadata: Metadata = {
   title: "EDOS LMIS",
   description: "Laboratory Management Information System",
+  manifest: "/manifest.json",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0f6e5f",
 };
 
 const themeInitScript = `
@@ -26,7 +32,10 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SwUpdateBanner />
+        {children}
+      </body>
     </html>
   );
 }

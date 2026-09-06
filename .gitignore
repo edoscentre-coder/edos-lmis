@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PWA: service worker is generated at build time from service-worker/sw.js
+# (see next.config.ts / @ducanh2912/next-pwa workboxOptions.swSrc)
+/public/sw.js
+/public/sw.js.map

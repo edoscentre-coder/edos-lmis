@@ -17,10 +17,6 @@ export function OfflineIndicator() {
     if (typeof navigator !== "undefined") setIsOnline(navigator.onLine);
     refreshCount();
 
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
-    }
-
     async function handleOnline() {
       setIsOnline(true);
       setSyncing(true);
